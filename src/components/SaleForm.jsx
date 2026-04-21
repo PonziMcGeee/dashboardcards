@@ -6,7 +6,7 @@ import { COLLECTIONS } from './PurchaseForm';
 const PLATFORMS = ['Cardmarket', 'eBay', 'Wallapop', 'Vinted', 'Local', 'Otro'];
 
 function emptyForm(today) {
-  return { date: today, description: '', collection: 'Pokemon', platform: 'Cardmarket', quantity: 1, price: '', costBasis: '', notes: '' };
+  return { date: today, description: '', collection: '', platform: 'Cardmarket', quantity: 1, price: '', costBasis: '', notes: '' };
 }
 
 export default function SaleForm({ onAdd, editItem, onSave, onCancel }) {
@@ -51,10 +51,19 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel }) {
           <input type="date" name="date" value={form.date} onChange={handleChange} required className={inputCls} />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Colección</label>
-          <select name="collection" value={form.collection} onChange={handleChange} className={inputCls}>
-            {COLLECTIONS.map(c => <option key={c}>{c}</option>)}
-          </select>
+          <label className="block text-xs font-medium text-gray-500 mb-1">Colección / Origen</label>
+          <input
+            type="text"
+            name="collection"
+            value={form.collection}
+            onChange={handleChange}
+            list="sale-collections"
+            placeholder="Pokemon, pala de pádel..."
+            className={inputCls}
+          />
+          <datalist id="sale-collections">
+            {COLLECTIONS.map(c => <option key={c} value={c} />)}
+          </datalist>
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">Plataforma</label>
