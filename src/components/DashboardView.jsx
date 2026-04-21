@@ -2,11 +2,18 @@ import { ShoppingCart, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
 import StatCard from './StatCard';
 import SpendingChart from './SpendingChart';
 import CategoryChart from './CategoryChart';
+import { COLLECTIONS } from './PurchaseForm';
 import { format, startOfMonth } from 'date-fns';
 
 function fmt(n) {
   return n.toFixed(2).replace('.', ',') + ' €';
 }
+
+const COLLECTION_COLORS = {
+  'Pokemon': 'bg-yellow-400',
+  'Naruto': 'bg-orange-400',
+  'Fútbol': 'bg-green-500',
+};
 
 export default function DashboardView({ purchases, sales }) {
   const totalSpent = purchases.reduce((s, p) => s + p.total, 0);
@@ -21,6 +28,12 @@ export default function DashboardView({ purchases, sales }) {
   const monthSales = sales
     .filter(v => v.date.startsWith(monthKey))
     .reduce((s, v) => s + v.total, 0);
+
+  const byCollection = COLLECTIONS.map(col => ({
+    name: col,
+    spent: purchases.filter(p => p.collection === col).reduce((s, p) => s + p.total, 0),
+    sold: sales.filter(v => v.collection === col).reduce((s, v) => s + v.total, 0),
+  }));
 
   return (
     <div className="space-y-6">
@@ -56,6 +69,33 @@ export default function DashboardView({ purchases, sales }) {
       </div>
 
       <SpendingChart purchases={purchases} sales={sales} />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {byCollection.map(({ name, spent, sold }) => (
+          <div key={name} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <span className={`w-2.5 h-2.5 rounded-full ${COLLECTION_COLORS[name] || 'bg-gray-400'}`} />
+              <h3 className="font-semibold text-gray-800">{name}</h3>
+            </div>
+            <div className="space-y-1.5 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-400">Gastado</span>
+                <span className="font-semibold text-gray-800">{fmt(spent)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Vendido</span>
+                <span className="font-semibold text-green-600">{fmt(sold)}</span>
+              </div>
+              <div className="flex justify-between border-t border-gray-50 pt-1.5">
+                <span className="text-gray-400">Balance</span>
+                <span className={`font-bold ${sold - spent >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                  {sold - spent >= 0 ? '+' : ''}{fmt(sold - spent)}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <CategoryChart purchases={purchases} />

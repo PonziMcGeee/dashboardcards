@@ -2,12 +2,13 @@ import { useState } from 'react';
 import PurchaseForm from './PurchaseForm';
 import ItemList from './ItemList';
 
-export default function PurchasesView({ purchases, onAdd, onRemove }) {
+export default function PurchasesView({ purchases, onAdd, onRemove, onUpdate }) {
   const [search, setSearch] = useState('');
 
   const filtered = purchases.filter(p =>
     p.description.toLowerCase().includes(search.toLowerCase()) ||
     p.category.toLowerCase().includes(search.toLowerCase()) ||
+    (p.collection || '').toLowerCase().includes(search.toLowerCase()) ||
     (p.notes || '').toLowerCase().includes(search.toLowerCase())
   );
 
@@ -31,7 +32,7 @@ export default function PurchasesView({ purchases, onAdd, onRemove }) {
           </span>
         </div>
       </div>
-      <ItemList items={filtered} type="purchase" onRemove={onRemove} />
+      <ItemList items={filtered} type="purchase" onRemove={onRemove} onUpdate={onUpdate} />
     </div>
   );
 }

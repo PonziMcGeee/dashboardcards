@@ -2,12 +2,13 @@ import { useState } from 'react';
 import SaleForm from './SaleForm';
 import ItemList from './ItemList';
 
-export default function SalesView({ sales, onAdd, onRemove }) {
+export default function SalesView({ sales, onAdd, onRemove, onUpdate }) {
   const [search, setSearch] = useState('');
 
   const filtered = sales.filter(s =>
     s.description.toLowerCase().includes(search.toLowerCase()) ||
     s.platform.toLowerCase().includes(search.toLowerCase()) ||
+    (s.collection || '').toLowerCase().includes(search.toLowerCase()) ||
     (s.notes || '').toLowerCase().includes(search.toLowerCase())
   );
 
@@ -37,7 +38,7 @@ export default function SalesView({ sales, onAdd, onRemove }) {
           </span>
         </div>
       </div>
-      <ItemList items={filtered} type="sale" onRemove={onRemove} />
+      <ItemList items={filtered} type="sale" onRemove={onRemove} onUpdate={onUpdate} />
     </div>
   );
 }
