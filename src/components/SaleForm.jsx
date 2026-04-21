@@ -57,6 +57,7 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel }) {
             value={form.collection}
             onChange={handleChange}
             placeholder="Ej: Pokemon, pala de pádel..."
+            autoComplete="off"
             className={inputCls}
           />
         </div>
