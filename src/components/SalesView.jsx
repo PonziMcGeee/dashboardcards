@@ -13,7 +13,6 @@ export default function SalesView({ sales, collections, onAdd, onRemove, onUpdat
   );
 
   const totalSales = sales.reduce((s, v) => s + v.total, 0);
-  const totalProfit = sales.reduce((s, v) => s + v.profit, 0);
 
   return (
     <div className="space-y-5">
@@ -32,9 +31,6 @@ export default function SalesView({ sales, collections, onAdd, onRemove, onUpdat
           </span>
           <span className="text-green-600 font-semibold">
             {totalSales.toFixed(2).replace('.', ',')} € vendido
-          </span>
-          <span className={totalProfit >= 0 ? 'text-green-500 font-semibold' : 'text-red-500 font-semibold'}>
-            {totalProfit >= 0 ? '+' : ''}{totalProfit.toFixed(2).replace('.', ',')} € beneficio
           </span>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ShoppingCart, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
+import { ShoppingCart, TrendingUp, Wallet } from 'lucide-react';
 import { subDays, parseISO, isAfter, isBefore, startOfDay, format } from 'date-fns';
 import StatCard from './StatCard';
 import SpendingChart from './SpendingChart';
@@ -60,7 +60,6 @@ export default function DashboardView({ purchases, sales, collections }) {
 
   const totalSpent = filteredPurchases.reduce((s, p) => s + p.total, 0);
   const totalSales = filteredSales.reduce((s, v) => s + v.total, 0);
-  const totalProfit = filteredSales.reduce((s, v) => s + v.profit, 0);
   const balance = totalSales - totalSpent;
 
   const selectedPresetLabel = DATE_PRESETS.find(p => p.key === datePreset)?.label ?? '';
@@ -143,7 +142,7 @@ export default function DashboardView({ purchases, sales, collections }) {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard
           label="Gasto total"
           value={fmt(totalSpent)}
@@ -160,16 +159,9 @@ export default function DashboardView({ purchases, sales, collections }) {
         />
         <StatCard
           label="Beneficio neto"
-          value={fmt(totalProfit)}
-          sub="Con coste de compra"
-          color={totalProfit >= 0 ? 'green' : 'red'}
-          icon={TrendingDown}
-        />
-        <StatCard
-          label="Balance"
           value={fmt(balance)}
           sub="Ventas − Compras"
-          color={balance >= 0 ? 'purple' : 'orange'}
+          color={balance >= 0 ? 'green' : 'red'}
           icon={Wallet}
         />
       </div>

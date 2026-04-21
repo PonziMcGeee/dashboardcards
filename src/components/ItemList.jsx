@@ -111,11 +111,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 <span className={`font-bold text-sm ${type === 'sale' ? 'text-green-600' : 'text-gray-800'}`}>
                   {fmt(item.total)}
                 </span>
-                {type === 'sale' && item.costBasis > 0 && (
-                  <span className={`text-xs font-medium ${item.profit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                    {item.profit >= 0 ? '+' : ''}{fmt(item.profit)}
-                  </span>
-                )}
+
                 <div className="flex gap-2 mt-1">
                   <button
                     onClick={() => setEditingItem(item)}

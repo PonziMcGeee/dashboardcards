@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 const PLATFORMS = ['Cardmarket', 'eBay', 'Wallapop', 'Vinted', 'Local', 'Otro'];
 
 function emptyForm(today) {
-  return { date: today, description: '', collection: '', platform: 'Cardmarket', quantity: 1, price: '', costBasis: '', notes: '' };
+  return { date: today, description: '', collection: '', platform: 'Cardmarket', quantity: 1, price: '', notes: '' };
 }
 
 export default function SaleForm({ onAdd, editItem, onSave, onCancel, collections = [] }) {
@@ -28,8 +28,7 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
     if (!form.description.trim() || !form.price) return;
     const qty = Number(form.quantity);
     const price = parseFloat(form.price);
-    const cost = form.costBasis ? parseFloat(form.costBasis) : 0;
-    const data = { ...form, quantity: qty, price, costBasis: cost, total: qty * price, profit: qty * price - cost };
+    const data = { ...form, quantity: qty, price, total: qty * price };
     if (isEdit) {
       onSave(editItem.id, data);
     } else {
@@ -79,13 +78,6 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
           <input
             type="number" name="price" value={form.price} onChange={handleChange}
             step="0.01" min="0" placeholder="0.00" required className={inputCls}
-          />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Coste total de compra (€)</label>
-          <input
-            type="number" name="costBasis" value={form.costBasis} onChange={handleChange}
-            step="0.01" min="0" placeholder="0.00 (para calcular beneficio)" className={inputCls}
           />
         </div>
         <div>
