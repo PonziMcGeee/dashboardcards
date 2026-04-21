@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { PlusCircle, Save } from 'lucide-react';
 import { format } from 'date-fns';
-import { COLLECTIONS } from './PurchaseForm';
 
 const PLATFORMS = ['Cardmarket', 'eBay', 'Wallapop', 'Vinted', 'Local', 'Otro'];
 
@@ -57,13 +56,9 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel }) {
             name="collection"
             value={form.collection}
             onChange={handleChange}
-            list="sale-collections"
-            placeholder="Pokemon, pala de pádel..."
+            placeholder="Ej: Pokemon, pala de pádel..."
             className={inputCls}
           />
-          <datalist id="sale-collections">
-            {COLLECTIONS.map(c => <option key={c} value={c} />)}
-          </datalist>
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">Plataforma</label>
