@@ -8,7 +8,7 @@ function emptyForm(today) {
   return { date: today, description: '', collection: '', platform: 'Cardmarket', quantity: 1, price: '', costBasis: '', notes: '' };
 }
 
-export default function SaleForm({ onAdd, editItem, onSave, onCancel }) {
+export default function SaleForm({ onAdd, editItem, onSave, onCancel, collections = [] }) {
   const today = format(new Date(), 'yyyy-MM-dd');
   const isEdit = !!editItem;
 
@@ -50,16 +50,11 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel }) {
           <input type="date" name="date" value={form.date} onChange={handleChange} required className={inputCls} />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">Colección / Origen</label>
-          <input
-            type="text"
-            name="collection"
-            value={form.collection}
-            onChange={handleChange}
-            placeholder="Ej: Pokemon, pala de pádel..."
-            autoComplete="off"
-            className={inputCls}
-          />
+          <label className="block text-xs font-medium text-gray-500 mb-1">Colección</label>
+          <select name="collection" value={form.collection} onChange={handleChange} className={inputCls}>
+            <option value="">— Sin colección —</option>
+            {collections.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+          </select>
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">Plataforma</label>

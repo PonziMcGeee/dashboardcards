@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SaleForm from './SaleForm';
 import ItemList from './ItemList';
 
-export default function SalesView({ sales, onAdd, onRemove, onUpdate }) {
+export default function SalesView({ sales, collections, onAdd, onRemove, onUpdate }) {
   const [search, setSearch] = useState('');
 
   const filtered = sales.filter(s =>
@@ -17,7 +17,7 @@ export default function SalesView({ sales, onAdd, onRemove, onUpdate }) {
 
   return (
     <div className="space-y-5">
-      <SaleForm onAdd={onAdd} />
+      <SaleForm onAdd={onAdd} collections={collections} />
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <input
           type="text"
@@ -38,7 +38,7 @@ export default function SalesView({ sales, onAdd, onRemove, onUpdate }) {
           </span>
         </div>
       </div>
-      <ItemList items={filtered} type="sale" onRemove={onRemove} onUpdate={onUpdate} />
+      <ItemList items={filtered} type="sale" onRemove={onRemove} onUpdate={onUpdate} collections={collections} />
     </div>
   );
 }

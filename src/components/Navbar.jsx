@@ -1,9 +1,10 @@
-import { LayoutDashboard, ShoppingCart, TrendingUp, LogOut } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, TrendingUp, LogOut, FolderOpen } from 'lucide-react';
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', Icon: LayoutDashboard },
   { id: 'purchases', label: 'Compras', Icon: ShoppingCart },
   { id: 'sales', label: 'Ventas', Icon: TrendingUp },
+  { id: 'collections', label: 'Colecciones', Icon: FolderOpen },
 ];
 
 export default function Navbar({ active, onChange, onLogout, user }) {

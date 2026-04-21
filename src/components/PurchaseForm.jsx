@@ -1,23 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PlusCircle, Save } from 'lucide-react';
 import { format } from 'date-fns';
 
 const CATEGORIES = ['Sobre', 'Caja', 'Carta individual', 'Bundle', 'Colección completa', 'Otro'];
-export const COLLECTIONS = ['Pokemon', 'Naruto', 'Fútbol'];
 
-function emptyForm(today) {
-  return { date: today, description: '', collection: 'Pokemon', category: 'Sobre', quantity: 1, price: '', notes: '' };
+function emptyForm(today, defaultCollection) {
+  return { date: today, description: '', collection: defaultCollection, category: 'Sobre', quantity: 1, price: '', notes: '' };
 }
 
-export default function PurchaseForm({ onAdd, editItem, onSave, onCancel }) {
+export default function PurchaseForm({ onAdd, editItem, onSave, onCancel, collections = [] }) {
   const today = format(new Date(), 'yyyy-MM-dd');
   const isEdit = !!editItem;
 
   const [form, setForm] = useState(() =>
     isEdit
       ? { ...editItem, price: editItem.price.toString(), costBasis: editItem.costBasis?.toString() ?? '' }
-      : emptyForm(today)
+      : emptyForm(today, collections[0]?.name ?? '')
   );
+
+  useEffect(() => {
+    if (!isEdit && !form.collection && collections.length > 0) {
+      setForm(prev => ({ ...prev, collection: collections[0].name }));
+    }
+  }, [collections, isEdit]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -34,7 +39,7 @@ export default function PurchaseForm({ onAdd, editItem, onSave, onCancel }) {
       onSave(editItem.id, data);
     } else {
       onAdd(data);
-      setForm(emptyForm(today));
+      setForm(emptyForm(today, collections[0]?.name ?? ''));
     }
   }
 
@@ -51,9 +56,15 @@ export default function PurchaseForm({ onAdd, editItem, onSave, onCancel }) {
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">Colección</label>
-          <select name="collection" value={form.collection} onChange={handleChange} className={inputCls}>
-            {COLLECTIONS.map(c => <option key={c}>{c}</option>)}
-          </select>
+          {collections.length > 0 ? (
+            <select name="collection" value={form.collection} onChange={handleChange} className={inputCls}>
+              {collections.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+            </select>
+          ) : (
+            <div className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-400 bg-gray-50">
+              Sin colecciones — créalas en la pestaña Colecciones
+            </div>
+          )}
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">Categoría</label>

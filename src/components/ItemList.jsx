@@ -5,6 +5,7 @@ import { es } from 'date-fns/locale';
 import Modal from './Modal';
 import PurchaseForm from './PurchaseForm';
 import SaleForm from './SaleForm';
+import { getCollectionColor } from '../collectionColors';
 
 function fmt(n) {
   return n.toFixed(2).replace('.', ',') + ' €';
@@ -18,14 +19,10 @@ function fmtDate(dateStr) {
   }
 }
 
-function CollectionBadge({ collection }) {
-  const map = {
-    'Pokemon': 'bg-yellow-100 text-yellow-700',
-    'Naruto': 'bg-orange-100 text-orange-700',
-    'Fútbol': 'bg-green-100 text-green-700',
-  };
+function CollectionBadge({ collection, collections }) {
+  const color = getCollectionColor(collections, collection);
   return (
-    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${map[collection] || 'bg-gray-100 text-gray-600'}`}>
+    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${color.badge}`}>
       {collection}
     </span>
   );
@@ -63,7 +60,7 @@ function SaleBadge({ platform }) {
   );
 }
 
-export default function ItemList({ items, type, onRemove, onUpdate }) {
+export default function ItemList({ items, type, onRemove, onUpdate, collections = [] }) {
   const [editingItem, setEditingItem] = useState(null);
 
   function handleSave(id, data) {
@@ -88,7 +85,7 @@ export default function ItemList({ items, type, onRemove, onUpdate }) {
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-1">
                   <span className="font-medium text-gray-800 text-sm truncate">{item.description}</span>
-                  {item.collection && <CollectionBadge collection={item.collection} />}
+                  {item.collection && <CollectionBadge collection={item.collection} collections={collections} />}
                   {type === 'purchase'
                     ? <PurchaseBadge category={item.category} />
                     : <SaleBadge platform={item.platform} />}
@@ -151,12 +148,14 @@ export default function ItemList({ items, type, onRemove, onUpdate }) {
               editItem={editingItem}
               onSave={handleSave}
               onCancel={() => setEditingItem(null)}
+              collections={collections}
             />
           ) : (
             <SaleForm
               editItem={editingItem}
               onSave={handleSave}
               onCancel={() => setEditingItem(null)}
+              collections={collections}
             />
           )}
         </Modal>

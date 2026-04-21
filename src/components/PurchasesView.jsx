@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PurchaseForm from './PurchaseForm';
 import ItemList from './ItemList';
 
-export default function PurchasesView({ purchases, onAdd, onRemove, onUpdate }) {
+export default function PurchasesView({ purchases, collections, onAdd, onRemove, onUpdate }) {
   const [search, setSearch] = useState('');
 
   const filtered = purchases.filter(p =>
@@ -16,7 +16,7 @@ export default function PurchasesView({ purchases, onAdd, onRemove, onUpdate }) 
 
   return (
     <div className="space-y-5">
-      <PurchaseForm onAdd={onAdd} />
+      <PurchaseForm onAdd={onAdd} collections={collections} />
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <input
           type="text"
@@ -32,7 +32,7 @@ export default function PurchasesView({ purchases, onAdd, onRemove, onUpdate }) 
           </span>
         </div>
       </div>
-      <ItemList items={filtered} type="purchase" onRemove={onRemove} onUpdate={onUpdate} />
+      <ItemList items={filtered} type="purchase" onRemove={onRemove} onUpdate={onUpdate} collections={collections} />
     </div>
   );
 }

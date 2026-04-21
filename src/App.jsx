@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import DashboardView from './components/DashboardView';
 import PurchasesView from './components/PurchasesView';
 import SalesView from './components/SalesView';
+import CollectionsView from './components/CollectionsView';
 import LoginScreen from './components/LoginScreen';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
 
   const { items: purchases, addItem: addPurchase, removeItem: removePurchase, updateItem: updatePurchase } = useData('purchases', user?.uid);
   const { items: sales, addItem: addSale, removeItem: removeSale, updateItem: updateSale } = useData('sales', user?.uid);
+  const { items: collections, addItem: addCollection, removeItem: removeCollection } = useData('collections', user?.uid);
 
   if (user === undefined) {
     return (
@@ -35,12 +37,15 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} />
       <main className="max-w-5xl mx-auto px-4 py-6">
-        {tab === 'dashboard' && <DashboardView purchases={purchases} sales={sales} />}
+        {tab === 'dashboard' && <DashboardView purchases={purchases} sales={sales} collections={collections} />}
         {tab === 'purchases' && (
-          <PurchasesView purchases={purchases} onAdd={addPurchase} onRemove={removePurchase} onUpdate={updatePurchase} />
+          <PurchasesView purchases={purchases} collections={collections} onAdd={addPurchase} onRemove={removePurchase} onUpdate={updatePurchase} />
         )}
         {tab === 'sales' && (
-          <SalesView sales={sales} onAdd={addSale} onRemove={removeSale} onUpdate={updateSale} />
+          <SalesView sales={sales} collections={collections} onAdd={addSale} onRemove={removeSale} onUpdate={updateSale} />
+        )}
+        {tab === 'collections' && (
+          <CollectionsView collections={collections} onAdd={addCollection} onRemove={removeCollection} />
         )}
       </main>
     </div>
