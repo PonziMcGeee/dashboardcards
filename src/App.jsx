@@ -37,7 +37,17 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} />
       <main className="max-w-5xl mx-auto px-4 py-6">
-        {tab === 'dashboard' && <DashboardView purchases={purchases} sales={sales} collections={collections} />}
+        {tab === 'dashboard' && (
+          <DashboardView
+            purchases={purchases}
+            sales={sales}
+            collections={collections}
+            onRemovePurchase={removePurchase}
+            onUpdatePurchase={updatePurchase}
+            onRemoveSale={removeSale}
+            onUpdateSale={updateSale}
+          />
+        )}
         {tab === 'purchases' && (
           <PurchasesView purchases={purchases} collections={collections} onAdd={addPurchase} onRemove={removePurchase} onUpdate={updatePurchase} />
         )}

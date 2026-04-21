@@ -4,6 +4,7 @@ import { subDays, parseISO, isAfter, isBefore, startOfDay, format } from 'date-f
 import StatCard from './StatCard';
 import SpendingChart from './SpendingChart';
 import CategoryChart from './CategoryChart';
+import ItemList from './ItemList';
 import { COLOR_PALETTE } from '../collectionColors';
 
 function fmt(n) {
@@ -19,7 +20,7 @@ const DATE_PRESETS = [
   { key: 'custom', label: 'Personalizado' },
 ];
 
-export default function DashboardView({ purchases, sales, collections }) {
+export default function DashboardView({ purchases, sales, collections, onRemovePurchase, onUpdatePurchase, onRemoveSale, onUpdateSale }) {
   const [filterCollection, setFilterCollection] = useState('');
   const [datePreset, setDatePreset] = useState('30');
   const [customFrom, setCustomFrom] = useState('');
@@ -224,6 +225,40 @@ export default function DashboardView({ purchases, sales, collections }) {
               <Row label="Precio promedio/venta" value={filteredSales.length ? fmt(totalSales / filteredSales.length) : '—'} />
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Purchases & sales lists */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div>
+          <h2 className="text-base font-semibold text-gray-800 mb-3">
+            Compras
+            {filteredPurchases.length > 0 && (
+              <span className="ml-2 text-xs font-normal text-gray-400">{filteredPurchases.length}</span>
+            )}
+          </h2>
+          <ItemList
+            items={filteredPurchases}
+            type="purchase"
+            onRemove={onRemovePurchase}
+            onUpdate={onUpdatePurchase}
+            collections={collections}
+          />
+        </div>
+        <div>
+          <h2 className="text-base font-semibold text-gray-800 mb-3">
+            Ventas
+            {filteredSales.length > 0 && (
+              <span className="ml-2 text-xs font-normal text-gray-400">{filteredSales.length}</span>
+            )}
+          </h2>
+          <ItemList
+            items={filteredSales}
+            type="sale"
+            onRemove={onRemoveSale}
+            onUpdate={onUpdateSale}
+            collections={collections}
+          />
         </div>
       </div>
     </div>
