@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
-import { auth } from './firebase';
+import { writeBatch, doc } from 'firebase/firestore';
+import { auth, db } from './firebase';
 import { useAuth } from './hooks/useAuth';
 import { useData } from './hooks/useData';
 import Navbar from './components/Navbar';
@@ -16,7 +17,20 @@ export default function App() {
 
   const { items: purchases, addItem: addPurchase, removeItem: removePurchase, updateItem: updatePurchase } = useData('purchases', user?.uid);
   const { items: sales, addItem: addSale, removeItem: removeSale, updateItem: updateSale } = useData('sales', user?.uid);
-  const { items: collections, addItem: addCollection, removeItem: removeCollection, updateItem: updateCollection } = useData('collections', user?.uid);
+  const { items: collections, addItem: addCollection, removeItem: removeCollection } = useData('collections', user?.uid);
+
+  async function handleRenameCollection(colId, oldName, newName) {
+    const uid = user.uid;
+    const batch = writeBatch(db);
+    batch.update(doc(db, 'users', uid, 'collections', colId), { name: newName });
+    purchases
+      .filter(p => p.collection === oldName)
+      .forEach(p => batch.update(doc(db, 'users', uid, 'purchases', p.id), { collection: newName }));
+    sales
+      .filter(s => s.collection === oldName)
+      .forEach(s => batch.update(doc(db, 'users', uid, 'sales', s.id), { collection: newName }));
+    await batch.commit();
+  }
 
   if (user === undefined) {
     return (
@@ -55,7 +69,7 @@ export default function App() {
           <SalesView sales={sales} collections={collections} onAdd={addSale} onRemove={removeSale} onUpdate={updateSale} />
         )}
         {tab === 'collections' && (
-          <CollectionsView collections={collections} onAdd={addCollection} onRemove={removeCollection} onUpdate={updateCollection} />
+          <CollectionsView collections={collections} onAdd={addCollection} onRemove={removeCollection} onRename={handleRenameCollection} />
         )}
       </main>
     </div>

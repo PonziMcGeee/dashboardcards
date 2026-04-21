@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { PlusCircle, Trash2, Pencil, Check, X } from 'lucide-react';
 import { COLOR_PALETTE } from '../collectionColors';
 
-export default function CollectionsView({ collections, onAdd, onRemove, onUpdate }) {
+export default function CollectionsView({ collections, onAdd, onRemove, onRename }) {
   const [name, setName] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState('');
@@ -32,7 +32,7 @@ export default function CollectionsView({ collections, onAdd, onRemove, onUpdate
     if (collections.some(c => c.id !== col.id && c.name.toLowerCase() === trimmed.toLowerCase())) {
       cancelEdit(); return;
     }
-    onUpdate(col.id, { name: trimmed });
+    onRename(col.id, col.name, trimmed);
     cancelEdit();
   }
 
