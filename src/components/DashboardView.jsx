@@ -20,11 +20,31 @@ const DATE_PRESETS = [
   { key: 'custom', label: 'Personalizado' },
 ];
 
+function applyListFilters(items, search, sort) {
+  const q = search.toLowerCase();
+  const result = q
+    ? items.filter(i =>
+        i.description.toLowerCase().includes(q) ||
+        (i.notes || '').toLowerCase().includes(q)
+      )
+    : [...items];
+  if (sort === 'date-asc')    result.sort((a, b) => a.date.localeCompare(b.date));
+  if (sort === 'date-desc')   result.sort((a, b) => b.date.localeCompare(a.date));
+  if (sort === 'price-desc')  result.sort((a, b) => b.total - a.total);
+  if (sort === 'price-asc')   result.sort((a, b) => a.total - b.total);
+  return result;
+}
+
 export default function DashboardView({ purchases, sales, collections, onRemovePurchase, onUpdatePurchase, onRemoveSale, onUpdateSale }) {
   const [filterCollection, setFilterCollection] = useState('');
   const [datePreset, setDatePreset] = useState('30');
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState(format(new Date(), 'yyyy-MM-dd'));
+
+  const [purchaseSearch, setPurchaseSearch] = useState('');
+  const [purchaseSort, setPurchaseSort] = useState('date-desc');
+  const [saleSearch, setSaleSearch] = useState('');
+  const [saleSort, setSaleSort] = useState('date-desc');
 
   const today = startOfDay(new Date());
 
@@ -231,14 +251,16 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
       {/* Purchases & sales lists */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
-          <h2 className="text-base font-semibold text-gray-800 mb-3">
-            Compras
-            {filteredPurchases.length > 0 && (
-              <span className="ml-2 text-xs font-normal text-gray-400">{filteredPurchases.length}</span>
-            )}
-          </h2>
+          <ListControls
+            title="Compras"
+            count={filteredPurchases.length}
+            search={purchaseSearch}
+            onSearch={setPurchaseSearch}
+            sort={purchaseSort}
+            onSort={setPurchaseSort}
+          />
           <ItemList
-            items={filteredPurchases}
+            items={applyListFilters(filteredPurchases, purchaseSearch, purchaseSort)}
             type="purchase"
             onRemove={onRemovePurchase}
             onUpdate={onUpdatePurchase}
@@ -246,14 +268,16 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
           />
         </div>
         <div>
-          <h2 className="text-base font-semibold text-gray-800 mb-3">
-            Ventas
-            {filteredSales.length > 0 && (
-              <span className="ml-2 text-xs font-normal text-gray-400">{filteredSales.length}</span>
-            )}
-          </h2>
+          <ListControls
+            title="Ventas"
+            count={filteredSales.length}
+            search={saleSearch}
+            onSearch={setSaleSearch}
+            sort={saleSort}
+            onSort={setSaleSort}
+          />
           <ItemList
-            items={filteredSales}
+            items={applyListFilters(filteredSales, saleSearch, saleSort)}
             type="sale"
             onRemove={onRemoveSale}
             onUpdate={onUpdateSale}
@@ -270,6 +294,36 @@ function Row({ label, value }) {
     <div className="flex justify-between items-center text-sm">
       <span className="text-gray-500">{label}</span>
       <span className="font-semibold text-gray-800">{value}</span>
+    </div>
+  );
+}
+
+function ListControls({ title, count, search, onSearch, sort, onSort }) {
+  return (
+    <div className="mb-3 space-y-2">
+      <div className="flex items-center gap-2">
+        <h2 className="text-base font-semibold text-gray-800">{title}</h2>
+        {count > 0 && <span className="text-xs text-gray-400">{count}</span>}
+      </div>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={search}
+          onChange={e => onSearch(e.target.value)}
+          placeholder="Buscar descripción o notas..."
+          className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <select
+          value={sort}
+          onChange={e => onSort(e.target.value)}
+          className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="date-desc">Fecha ↓</option>
+          <option value="date-asc">Fecha ↑</option>
+          <option value="price-desc">Precio ↓</option>
+          <option value="price-asc">Precio ↑</option>
+        </select>
+      </div>
     </div>
   );
 }

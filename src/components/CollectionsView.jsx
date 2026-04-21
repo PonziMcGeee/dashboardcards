@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { PlusCircle, Trash2, Pencil, Check, X } from 'lucide-react';
 import { COLOR_PALETTE } from '../collectionColors';
 
-export default function CollectionsView({ collections, onAdd, onRemove }) {
+export default function CollectionsView({ collections, onAdd, onRemove, onUpdate }) {
   const [name, setName] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [editingName, setEditingName] = useState('');
 
   function handleAdd(e) {
     e.preventDefault();
@@ -12,6 +14,26 @@ export default function CollectionsView({ collections, onAdd, onRemove }) {
     if (collections.some(c => c.name.toLowerCase() === trimmed.toLowerCase())) return;
     onAdd({ name: trimmed, colorIndex: collections.length });
     setName('');
+  }
+
+  function startEdit(col) {
+    setEditingId(col.id);
+    setEditingName(col.name);
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditingName('');
+  }
+
+  function saveEdit(col) {
+    const trimmed = editingName.trim();
+    if (!trimmed || trimmed === col.name) { cancelEdit(); return; }
+    if (collections.some(c => c.id !== col.id && c.name.toLowerCase() === trimmed.toLowerCase())) {
+      cancelEdit(); return;
+    }
+    onUpdate(col.id, { name: trimmed });
+    cancelEdit();
   }
 
   return (
@@ -51,17 +73,38 @@ export default function CollectionsView({ collections, onAdd, onRemove }) {
           <div className="divide-y divide-gray-50">
             {collections.map(col => {
               const color = COLOR_PALETTE[col.colorIndex % COLOR_PALETTE.length];
+              const isEditing = editingId === col.id;
               return (
-                <div key={col.id} className="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors">
+                <div key={col.id} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-colors">
                   <span className={`w-3 h-3 rounded-full shrink-0 ${color.dot}`} />
-                  <span className="flex-1 text-sm font-medium text-gray-800">{col.name}</span>
-                  <button
-                    onClick={() => onRemove(col.id)}
-                    className="text-gray-300 hover:text-red-400 transition-colors"
-                    title="Eliminar colección"
-                  >
-                    <Trash2 size={15} />
-                  </button>
+
+                  {isEditing ? (
+                    <>
+                      <input
+                        autoFocus
+                        value={editingName}
+                        onChange={e => setEditingName(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') saveEdit(col); if (e.key === 'Escape') cancelEdit(); }}
+                        className="flex-1 border border-blue-300 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      />
+                      <button onClick={() => saveEdit(col)} className="text-green-500 hover:text-green-600 transition-colors" title="Guardar">
+                        <Check size={15} />
+                      </button>
+                      <button onClick={cancelEdit} className="text-gray-300 hover:text-gray-500 transition-colors" title="Cancelar">
+                        <X size={15} />
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <span className="flex-1 text-sm font-medium text-gray-800">{col.name}</span>
+                      <button onClick={() => startEdit(col)} className="text-gray-300 hover:text-blue-400 transition-colors" title="Renombrar">
+                        <Pencil size={14} />
+                      </button>
+                      <button onClick={() => onRemove(col.id)} className="text-gray-300 hover:text-red-400 transition-colors" title="Eliminar">
+                        <Trash2 size={15} />
+                      </button>
+                    </>
+                  )}
                 </div>
               );
             })}

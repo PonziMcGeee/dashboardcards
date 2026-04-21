@@ -16,7 +16,7 @@ export default function App() {
 
   const { items: purchases, addItem: addPurchase, removeItem: removePurchase, updateItem: updatePurchase } = useData('purchases', user?.uid);
   const { items: sales, addItem: addSale, removeItem: removeSale, updateItem: updateSale } = useData('sales', user?.uid);
-  const { items: collections, addItem: addCollection, removeItem: removeCollection } = useData('collections', user?.uid);
+  const { items: collections, addItem: addCollection, removeItem: removeCollection, updateItem: updateCollection } = useData('collections', user?.uid);
 
   if (user === undefined) {
     return (
@@ -55,7 +55,7 @@ export default function App() {
           <SalesView sales={sales} collections={collections} onAdd={addSale} onRemove={removeSale} onUpdate={updateSale} />
         )}
         {tab === 'collections' && (
-          <CollectionsView collections={collections} onAdd={addCollection} onRemove={removeCollection} />
+          <CollectionsView collections={collections} onAdd={addCollection} onRemove={removeCollection} onUpdate={updateCollection} />
         )}
       </main>
     </div>
