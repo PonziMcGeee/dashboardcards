@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Trash2, Tag, Calendar, StickyNote, Pencil } from 'lucide-react';
+import { Trash2, Tag, Calendar, StickyNote, Pencil, ShoppingCart, TrendingUp } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Modal from './Modal';
@@ -60,6 +60,23 @@ function SaleBadge({ platform }) {
   );
 }
 
+function EmptyState({ type }) {
+  const config = {
+    purchase: { Icon: ShoppingCart, title: 'Sin compras registradas', sub: 'Añade tu primera compra usando el formulario.' },
+    sale:     { Icon: TrendingUp,   title: 'Sin ventas registradas',  sub: 'Añade tu primera venta usando el formulario.' },
+  };
+  const { Icon, title, sub } = config[type];
+  return (
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 text-center">
+      <div className="inline-flex items-center justify-center w-14 h-14 bg-gray-50 rounded-2xl mb-4">
+        <Icon size={24} className="text-gray-300" />
+      </div>
+      <p className="font-semibold text-gray-500 text-sm">{title}</p>
+      <p className="text-xs text-gray-400 mt-1">{sub}</p>
+    </div>
+  );
+}
+
 export default function ItemList({ items, type, onRemove, onUpdate, collections = [] }) {
   const [editingItem, setEditingItem] = useState(null);
 
@@ -68,20 +85,14 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
     setEditingItem(null);
   }
 
-  if (items.length === 0) {
-    return (
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center text-gray-400 text-sm">
-        No hay {type === 'purchase' ? 'compras' : 'ventas'} registradas aún.
-      </div>
-    );
-  }
+  if (items.length === 0) return <EmptyState type={type} />;
 
   return (
     <>
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="divide-y divide-gray-50">
           {items.map(item => (
-            <div key={item.id} className="flex items-start justify-between gap-4 p-4 hover:bg-gray-50 transition-colors">
+            <div key={item.id} className="item-fade-in flex items-start justify-between gap-4 p-4 hover:bg-gray-50 transition-colors">
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-1">
                   <span className="font-medium text-gray-800 text-sm truncate">{item.description}</span>
@@ -111,7 +122,6 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 <span className={`font-bold text-sm ${type === 'sale' ? 'text-green-600' : 'text-gray-800'}`}>
                   {fmt(item.total)}
                 </span>
-
                 <div className="flex gap-2 mt-1">
                   <button
                     onClick={() => setEditingItem(item)}
@@ -140,19 +150,9 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
           onClose={() => setEditingItem(null)}
         >
           {type === 'purchase' ? (
-            <PurchaseForm
-              editItem={editingItem}
-              onSave={handleSave}
-              onCancel={() => setEditingItem(null)}
-              collections={collections}
-            />
+            <PurchaseForm editItem={editingItem} onSave={handleSave} onCancel={() => setEditingItem(null)} collections={collections} />
           ) : (
-            <SaleForm
-              editItem={editingItem}
-              onSave={handleSave}
-              onCancel={() => setEditingItem(null)}
-              collections={collections}
-            />
+            <SaleForm editItem={editingItem} onSave={handleSave} onCancel={() => setEditingItem(null)} collections={collections} />
           )}
         </Modal>
       )}
