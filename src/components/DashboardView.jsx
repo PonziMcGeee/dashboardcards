@@ -188,51 +188,54 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
 
       {/* Collection breakdown */}
       {!filterCollection && byCollection.length > 0 && (
-        <div className={`grid grid-cols-1 gap-4 ${byCollection.length >= 3 ? 'md:grid-cols-3' : byCollection.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1 max-w-sm'}`}>
-          {byCollection.map(({ name, color, spent, sold, pct }) => (
-            <div key={name} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-              <div className="flex items-center gap-2 mb-3">
-                <span className={`w-2.5 h-2.5 rounded-full ${color.dot}`} />
-                <h3 className="font-semibold text-gray-800">{name}</h3>
+        <>
+          <SectionLabel>Mis colecciones</SectionLabel>
+          <div className={`grid grid-cols-1 gap-4 ${byCollection.length >= 3 ? 'md:grid-cols-3' : byCollection.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1 max-w-sm'}`}>
+            {byCollection.map(({ name, color, spent, sold, pct }) => (
+              <div key={name} className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+                <div className={`h-1.5 ${color.dot}`} />
+                <div className="p-5">
+                  <h3 className="font-bold text-gray-800 mb-3">{name}</h3>
+                  <div className="space-y-1.5 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Gastado</span>
+                      <span className="font-semibold text-gray-800">{fmt(spent)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Vendido</span>
+                      <span className="font-semibold text-green-600">{fmt(sold)}</span>
+                    </div>
+                    <div className="flex justify-between border-t border-gray-50 pt-1.5">
+                      <span className="text-gray-400">Balance</span>
+                      <span className={`font-bold ${sold - spent >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                        {sold - spent >= 0 ? '+' : ''}{fmt(sold - spent)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <div className="flex justify-between text-xs text-gray-400 mb-1">
+                      <span>Recuperado</span>
+                      <span className="font-medium">{pct.toFixed(0)}%</span>
+                    </div>
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-700"
+                        style={{ width: `${pct}%`, backgroundColor: pct >= 100 ? '#22c55e' : '#60a5fa' }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="space-y-1.5 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Gastado</span>
-                  <span className="font-semibold text-gray-800">{fmt(spent)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Vendido</span>
-                  <span className="font-semibold text-green-600">{fmt(sold)}</span>
-                </div>
-                <div className="flex justify-between border-t border-gray-50 pt-1.5">
-                  <span className="text-gray-400">Balance</span>
-                  <span className={`font-bold ${sold - spent >= 0 ? 'text-green-600' : 'text-red-500'}`}>
-                    {sold - spent >= 0 ? '+' : ''}{fmt(sold - spent)}
-                  </span>
-                </div>
-              </div>
-              {/* Progress bar */}
-              <div className="mt-3">
-                <div className="flex justify-between text-xs text-gray-400 mb-1">
-                  <span>Recuperado</span>
-                  <span>{pct.toFixed(0)}%</span>
-                </div>
-                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{ width: `${pct}%`, backgroundColor: pct >= 100 ? '#22c55e' : '#60a5fa' }}
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
 
+      <SectionLabel>Análisis</SectionLabel>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <CategoryChart purchases={filteredPurchases} />
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">Resumen rápido</h2>
+          <h2 className="text-base font-bold text-gray-800 mb-3">Resumen rápido</h2>
           <div className="space-y-3 text-sm">
             <Row label="Compras registradas" value={filteredPurchases.length} />
             <Row label="Ventas registradas"  value={filteredSales.length} />
@@ -246,7 +249,7 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
         </div>
       </div>
 
-      {/* Purchases & sales lists */}
+      <SectionLabel>Historial</SectionLabel>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
           <ListControls title="Compras" count={filteredPurchases.length} search={purchaseSearch} onSearch={setPurchaseSearch} sort={purchaseSort} onSort={setPurchaseSort} />
@@ -257,6 +260,15 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
           <ItemList items={applyListFilters(filteredSales, saleSearch, saleSort)} type="sale" onRemove={onRemoveSale} onUpdate={onUpdateSale} collections={collections} />
         </div>
       </div>
+    </div>
+  );
+}
+
+function SectionLabel({ children }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-xs font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">{children}</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
   );
 }

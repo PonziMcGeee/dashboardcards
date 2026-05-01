@@ -62,7 +62,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#f0f4f8]">
       <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} />
       <main className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:pb-6">
         {tab === 'dashboard' && (

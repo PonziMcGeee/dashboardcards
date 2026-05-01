@@ -22,7 +22,7 @@ export default function CategoryChart({ purchases }) {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Gasto por categoría</h2>
+      <h2 className="text-base font-bold text-gray-800 mb-4">Gasto por categoría</h2>
       <ResponsiveContainer width="100%" height={200}>
         <PieChart>
           <Pie

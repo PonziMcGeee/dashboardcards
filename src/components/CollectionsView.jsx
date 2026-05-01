@@ -38,20 +38,21 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
 
   return (
     <div className="space-y-6 max-w-xl mx-auto">
+      {/* Create form */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Nueva colección</h2>
+        <h2 className="text-lg font-bold text-gray-800 mb-4">Nueva colección</h2>
         <form onSubmit={handleAdd} className="flex gap-3">
           <input
             type="text"
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="Nombre de la colección..."
-            className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
           />
           <button
             type="submit"
             disabled={!name.trim()}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors shadow-sm"
           >
             <PlusCircle size={16} />
             Crear
@@ -59,14 +60,21 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
         </form>
       </div>
 
+      {/* List */}
       {collections.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center text-gray-400 text-sm">
-          No tienes colecciones creadas aún. ¡Crea tu primera colección arriba!
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center">
+          <div className="flex justify-center gap-1.5 mb-4">
+            {[0,1,2].map(i => (
+              <div key={i} className={`w-4 h-4 rounded-full opacity-${i === 1 ? '100' : '40'} ${['bg-yellow-400','bg-blue-400','bg-green-500'][i]}`} />
+            ))}
+          </div>
+          <p className="font-semibold text-gray-500 text-sm">Sin colecciones todavía</p>
+          <p className="text-xs text-gray-400 mt-1">Crea tu primera colección arriba para empezar a organizar tus cartas.</p>
         </div>
       ) : (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="px-5 py-3 border-b border-gray-50">
-            <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
+          <div className="px-5 py-3 border-b border-gray-50 flex items-center justify-between">
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">
               {collections.length} {collections.length === 1 ? 'colección' : 'colecciones'}
             </span>
           </div>
@@ -75,8 +83,9 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
               const color = COLOR_PALETTE[col.colorIndex % COLOR_PALETTE.length];
               const isEditing = editingId === col.id;
               return (
-                <div key={col.id} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-colors">
-                  <span className={`w-3 h-3 rounded-full shrink-0 ${color.dot}`} />
+                <div key={col.id} className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors">
+                  {/* Color badge */}
+                  <div className={`w-5 h-5 rounded-lg shrink-0 ${color.dot} shadow-sm`} />
 
                   {isEditing ? (
                     <>
@@ -85,18 +94,18 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
                         value={editingName}
                         onChange={e => setEditingName(e.target.value)}
                         onKeyDown={e => { if (e.key === 'Enter') saveEdit(col); if (e.key === 'Escape') cancelEdit(); }}
-                        className="flex-1 border border-blue-300 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="flex-1 border border-blue-300 rounded-lg px-2.5 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                       />
                       <button onClick={() => saveEdit(col)} className="text-green-500 hover:text-green-600 transition-colors" title="Guardar">
-                        <Check size={15} />
+                        <Check size={16} />
                       </button>
                       <button onClick={cancelEdit} className="text-gray-300 hover:text-gray-500 transition-colors" title="Cancelar">
-                        <X size={15} />
+                        <X size={16} />
                       </button>
                     </>
                   ) : (
                     <>
-                      <span className="flex-1 text-sm font-medium text-gray-800">{col.name}</span>
+                      <span className="flex-1 text-sm font-semibold text-gray-800">{col.name}</span>
                       <button onClick={() => startEdit(col)} className="text-gray-300 hover:text-blue-400 transition-colors" title="Renombrar">
                         <Pencil size={14} />
                       </button>

@@ -92,7 +92,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="divide-y divide-gray-50">
           {items.map(item => (
-            <div key={item.id} className="item-fade-in flex items-start justify-between gap-4 p-4 hover:bg-gray-50 transition-colors">
+            <div key={item.id} className="item-fade-in flex items-start justify-between gap-4 p-4 hover:bg-slate-50 transition-colors group">
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-1">
                   <span className="font-medium text-gray-800 text-sm truncate">{item.description}</span>
@@ -125,14 +125,14 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 <div className="flex gap-2 mt-1">
                   <button
                     onClick={() => setEditingItem(item)}
-                    className="text-gray-300 hover:text-blue-400 transition-colors"
+                    className="text-gray-200 group-hover:text-gray-400 hover:!text-blue-500 transition-colors"
                     title="Editar"
                   >
                     <Pencil size={13} />
                   </button>
                   <button
                     onClick={() => onRemove(item.id)}
-                    className="text-gray-300 hover:text-red-400 transition-colors"
+                    className="text-gray-200 group-hover:text-gray-400 hover:!text-red-500 transition-colors"
                     title="Eliminar"
                   >
                     <Trash2 size={13} />
