@@ -79,6 +79,7 @@ function EmptyState({ type }) {
 
 export default function ItemList({ items, type, onRemove, onUpdate, collections = [] }) {
   const [editingItem, setEditingItem] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
   function handleSave(id, data) {
     onUpdate(id, data);
@@ -122,22 +123,40 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 <span className={`font-bold text-sm ${type === 'sale' ? 'text-green-600' : 'text-gray-800'}`}>
                   {fmt(item.total)}
                 </span>
-                <div className="flex gap-2 mt-1">
-                  <button
-                    onClick={() => setEditingItem(item)}
-                    className="text-gray-200 group-hover:text-gray-400 hover:!text-blue-500 transition-colors"
-                    title="Editar"
-                  >
-                    <Pencil size={13} />
-                  </button>
-                  <button
-                    onClick={() => onRemove(item.id)}
-                    className="text-gray-200 group-hover:text-gray-400 hover:!text-red-500 transition-colors"
-                    title="Eliminar"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                </div>
+                {deletingId === item.id ? (
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <span className="text-xs text-gray-500">¿Eliminar?</span>
+                    <button
+                      onClick={() => { onRemove(item.id); setDeletingId(null); }}
+                      className="text-xs font-semibold text-white bg-red-500 hover:bg-red-600 px-2 py-0.5 rounded-md transition-colors"
+                    >
+                      Sí
+                    </button>
+                    <button
+                      onClick={() => setDeletingId(null)}
+                      className="text-xs font-semibold text-gray-500 hover:text-gray-700 px-2 py-0.5 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                    >
+                      No
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 mt-1">
+                    <button
+                      onClick={() => setEditingItem(item)}
+                      className="text-gray-200 group-hover:text-gray-400 hover:!text-blue-500 transition-colors"
+                      title="Editar"
+                    >
+                      <Pencil size={13} />
+                    </button>
+                    <button
+                      onClick={() => setDeletingId(item.id)}
+                      className="text-gray-200 group-hover:text-gray-400 hover:!text-red-500 transition-colors"
+                      title="Eliminar"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

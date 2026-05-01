@@ -65,26 +65,28 @@ export default function App() {
     <div className="min-h-screen bg-[#f0f4f8]">
       <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} />
       <main className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:pb-6">
-        {tab === 'dashboard' && (
-          <DashboardView
-            purchases={purchases}
-            sales={sales}
-            collections={collections}
-            onRemovePurchase={handleRemovePurchase}
-            onUpdatePurchase={handleUpdatePurchase}
-            onRemoveSale={handleRemoveSale}
-            onUpdateSale={handleUpdateSale}
-          />
-        )}
-        {tab === 'purchases' && (
-          <PurchasesView purchases={purchases} collections={collections} onAdd={handleAddPurchase} onRemove={handleRemovePurchase} onUpdate={handleUpdatePurchase} />
-        )}
-        {tab === 'sales' && (
-          <SalesView sales={sales} collections={collections} onAdd={handleAddSale} onRemove={handleRemoveSale} onUpdate={handleUpdateSale} />
-        )}
-        {tab === 'collections' && (
-          <CollectionsView collections={collections} onAdd={handleAddCollection} onRemove={handleRemoveCollection} onRename={handleRenameCollection} />
-        )}
+        <div key={tab} className="tab-enter">
+          {tab === 'dashboard' && (
+            <DashboardView
+              purchases={purchases}
+              sales={sales}
+              collections={collections}
+              onRemovePurchase={handleRemovePurchase}
+              onUpdatePurchase={handleUpdatePurchase}
+              onRemoveSale={handleRemoveSale}
+              onUpdateSale={handleUpdateSale}
+            />
+          )}
+          {tab === 'purchases' && (
+            <PurchasesView purchases={purchases} collections={collections} onAdd={handleAddPurchase} onRemove={handleRemovePurchase} onUpdate={handleUpdatePurchase} />
+          )}
+          {tab === 'sales' && (
+            <SalesView sales={sales} collections={collections} onAdd={handleAddSale} onRemove={handleRemoveSale} onUpdate={handleUpdateSale} />
+          )}
+          {tab === 'collections' && (
+            <CollectionsView collections={collections} onAdd={handleAddCollection} onRemove={handleRemoveCollection} onRename={handleRenameCollection} />
+          )}
+        </div>
       </main>
     </div>
   );

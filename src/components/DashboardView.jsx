@@ -132,23 +132,28 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
       {/* Filter bar */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-3">
         <div className="flex flex-wrap gap-3 items-center">
+          {/* Collection selector */}
           <select
             value={filterCollection}
             onChange={e => setFilterCollection(e.target.value)}
-            className={`${inputCls} pr-7`}
+            className={`${inputCls} pr-7 font-medium`}
           >
             <option value="">Todas las colecciones</option>
             {collections.map(c => (
               <option key={c.id} value={c.name}>{c.name}</option>
             ))}
           </select>
-          <div className="flex gap-1 flex-wrap">
+
+          {/* Segmented date control */}
+          <div className="flex bg-gray-100 rounded-xl p-1 gap-0.5">
             {DATE_PRESETS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setDatePreset(key)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                  datePreset === key ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  datePreset === key
+                    ? 'bg-white text-gray-800 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
                 }`}
               >
                 {label}
@@ -156,11 +161,12 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
             ))}
           </div>
         </div>
+
         {datePreset === 'custom' && (
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-gray-500">Desde</span>
+          <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-gray-50">
+            <span className="text-xs font-medium text-gray-400">Desde</span>
             <input type="date" value={customFrom} onChange={e => setCustomFrom(e.target.value)} className={inputCls} />
-            <span className="text-xs text-gray-500">hasta</span>
+            <span className="text-xs font-medium text-gray-400">hasta</span>
             <input type="date" value={customTo} onChange={e => setCustomTo(e.target.value)} className={inputCls} />
           </div>
         )}
