@@ -11,7 +11,7 @@ function emptyForm(today) {
 function Field({ label, icon: Icon, children }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">{label}</label>
+      <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
       <div className="relative">
         {Icon && <Icon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />}
         {children}
@@ -49,12 +49,12 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
     }
   }
 
-  const base = 'w-full border border-gray-200 rounded-xl py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-shadow';
+  const base = 'w-full border border-gray-200 dark:border-gray-600 rounded-xl py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-shadow dark:bg-gray-700 dark:text-gray-100';
   const withIcon = `${base} pl-9 pr-3`;
 
   return (
-    <form onSubmit={handleSubmit} className={isEdit ? '' : 'bg-white rounded-2xl shadow-sm border border-gray-100 p-6'}>
-      {!isEdit && <h2 className="text-lg font-semibold text-gray-800 mb-5">Nueva Venta</h2>}
+    <form onSubmit={handleSubmit} className={isEdit ? '' : 'bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6'}>
+      {!isEdit && <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-5">Nueva Venta</h2>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         <Field label="Fecha" icon={Calendar}>
@@ -111,7 +111,7 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
           {isEdit ? <><Save size={15} /> Guardar cambios</> : <><PlusCircle size={16} /> Añadir venta</>}
         </button>
         {isEdit && (
-          <button type="button" onClick={onCancel} className="px-4 py-2.5 rounded-xl text-sm text-gray-500 hover:bg-gray-100 transition-colors">
+          <button type="button" onClick={onCancel} className="px-4 py-2.5 rounded-xl text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
             Cancelar
           </button>
         )}

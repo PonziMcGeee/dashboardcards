@@ -4,6 +4,7 @@ import { writeBatch, doc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { useAuth } from './hooks/useAuth';
 import { useData } from './hooks/useData';
+import { useTheme } from './hooks/useTheme';
 import { useToast } from './components/Toast';
 import Navbar from './components/Navbar';
 import DashboardView from './components/DashboardView';
@@ -16,6 +17,7 @@ export default function App() {
   const [tab, setTab] = useState('dashboard');
   const user = useAuth();
   const toast = useToast();
+  const { dark, toggle: toggleTheme } = useTheme();
 
   const { items: purchases, addItem: addPurchase, removeItem: removePurchase, updateItem: updatePurchase } = useData('purchases', user?.uid);
   const { items: sales, addItem: addSale, removeItem: removeSale, updateItem: updateSale } = useData('sales', user?.uid);
@@ -48,7 +50,7 @@ export default function App() {
 
   if (user === undefined) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <span className="text-4xl">🃏</span>
           <p className="text-sm text-gray-400 mt-3">Cargando...</p>
@@ -62,8 +64,8 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f4f8]">
-      <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} />
+    <div className="min-h-screen bg-[#f0f4f8] dark:bg-gray-900">
+      <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} dark={dark} onToggleTheme={toggleTheme} />
       <main className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:pb-6">
         <div key={tab} className="tab-enter">
           {tab === 'dashboard' && (

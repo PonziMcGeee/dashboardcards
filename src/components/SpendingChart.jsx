@@ -45,8 +45,8 @@ function buildChartData(purchases, sales, dateFrom, dateTo) {
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-3 text-xs">
-      <p className="font-semibold text-gray-700 mb-2">{label}</p>
+    <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg p-3 text-xs">
+      <p className="font-semibold text-gray-700 dark:text-gray-200 mb-2">{label}</p>
       {payload.map(p => (
         <p key={p.name} style={{ color: p.color }} className="font-medium">
           {p.name}: {p.value.toFixed(2)} €
@@ -60,8 +60,8 @@ export default function SpendingChart({ purchases, sales, dateFrom, dateTo, labe
   const data = buildChartData(purchases, sales, dateFrom, dateTo);
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <h2 className="text-base font-bold text-gray-800 mb-4">{label || 'Últimos 30 días'}</h2>
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+      <h2 className="text-base font-bold text-gray-800 dark:text-gray-100 mb-4">{label || 'Últimos 30 días'}</h2>
       {data.length === 0 ? (
         <div className="flex items-center justify-center h-[220px] text-gray-400 text-sm">
           Sin datos para el período seleccionado
@@ -79,7 +79,7 @@ export default function SpendingChart({ purchases, sales, dateFrom, dateTo, labe
                 <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
             <XAxis
               dataKey="date"
               tick={{ fontSize: 10, fill: '#9ca3af' }}

@@ -67,12 +67,12 @@ function EmptyState({ type }) {
   };
   const { Icon, title, sub } = config[type];
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 text-center">
-      <div className="inline-flex items-center justify-center w-14 h-14 bg-gray-50 rounded-2xl mb-4">
-        <Icon size={24} className="text-gray-300" />
+    <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-10 text-center">
+      <div className="inline-flex items-center justify-center w-14 h-14 bg-gray-50 dark:bg-gray-700 rounded-2xl mb-4">
+        <Icon size={24} className="text-gray-300 dark:text-gray-600" />
       </div>
-      <p className="font-semibold text-gray-500 text-sm">{title}</p>
-      <p className="text-xs text-gray-400 mt-1">{sub}</p>
+      <p className="font-semibold text-gray-500 dark:text-gray-400 text-sm">{title}</p>
+      <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{sub}</p>
     </div>
   );
 }
@@ -90,13 +90,13 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
 
   return (
     <>
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="divide-y divide-gray-50">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
+        <div className="divide-y divide-gray-50 dark:divide-gray-700">
           {items.map(item => (
-            <div key={item.id} className="item-fade-in flex items-start justify-between gap-4 p-4 hover:bg-slate-50 transition-colors group">
+            <div key={item.id} className="item-fade-in flex items-start justify-between gap-4 p-4 hover:bg-slate-50 dark:hover:bg-gray-700/40 transition-colors group">
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-1">
-                  <span className="font-medium text-gray-800 text-sm truncate">{item.description}</span>
+                  <span className="font-medium text-gray-800 dark:text-gray-100 text-sm truncate">{item.description}</span>
                   {item.collection && <CollectionBadge collection={item.collection} collections={collections} />}
                   {type === 'purchase'
                     ? <PurchaseBadge category={item.category} />
@@ -120,12 +120,12 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 </div>
               </div>
               <div className="flex flex-col items-end gap-1 shrink-0">
-                <span className={`font-bold text-sm ${type === 'sale' ? 'text-green-600' : 'text-gray-800'}`}>
+                <span className={`font-bold text-sm ${type === 'sale' ? 'text-green-600' : 'text-gray-800 dark:text-gray-100'}`}>
                   {fmt(item.total)}
                 </span>
                 {deletingId === item.id ? (
                   <div className="flex items-center gap-1.5 mt-1">
-                    <span className="text-xs text-gray-500">¿Eliminar?</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">¿Eliminar?</span>
                     <button
                       onClick={() => { onRemove(item.id); setDeletingId(null); }}
                       className="text-xs font-semibold text-white bg-red-500 hover:bg-red-600 px-2 py-0.5 rounded-md transition-colors"
@@ -134,7 +134,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                     </button>
                     <button
                       onClick={() => setDeletingId(null)}
-                      className="text-xs font-semibold text-gray-500 hover:text-gray-700 px-2 py-0.5 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                      className="text-xs font-semibold text-gray-500 dark:text-gray-300 hover:text-gray-700 px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors"
                     >
                       No
                     </button>
@@ -143,14 +143,14 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                   <div className="flex gap-2 mt-1">
                     <button
                       onClick={() => setEditingItem(item)}
-                      className="text-gray-200 group-hover:text-gray-400 hover:!text-blue-500 transition-colors"
+                      className="text-gray-200 dark:text-gray-700 group-hover:text-gray-400 dark:group-hover:text-gray-500 hover:!text-blue-500 transition-colors"
                       title="Editar"
                     >
                       <Pencil size={13} />
                     </button>
                     <button
                       onClick={() => setDeletingId(item.id)}
-                      className="text-gray-200 group-hover:text-gray-400 hover:!text-red-500 transition-colors"
+                      className="text-gray-200 dark:text-gray-700 group-hover:text-gray-400 dark:group-hover:text-gray-500 hover:!text-red-500 transition-colors"
                       title="Eliminar"
                     >
                       <Trash2 size={13} />

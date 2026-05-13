@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, TrendingUp, LogOut, FolderOpen } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, TrendingUp, LogOut, FolderOpen, Moon, Sun } from 'lucide-react';
 
 const tabs = [
   { id: 'dashboard',   label: 'Dashboard',    Icon: LayoutDashboard },
@@ -7,7 +7,7 @@ const tabs = [
   { id: 'collections', label: 'Colecciones',   Icon: FolderOpen },
 ];
 
-export default function Navbar({ active, onChange, onLogout, user }) {
+export default function Navbar({ active, onChange, onLogout, user, dark, onToggleTheme }) {
   return (
     <>
       {/* Top bar */}
@@ -42,6 +42,13 @@ export default function Navbar({ active, onChange, onLogout, user }) {
           <div className="flex items-center gap-3 ml-auto shrink-0">
             <span className="text-xs text-gray-500 hidden sm:block truncate max-w-32">{user?.email}</span>
             <button
+              onClick={onToggleTheme}
+              title={dark ? 'Modo claro' : 'Modo oscuro'}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              {dark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <button
               onClick={onLogout}
               title="Cerrar sesión"
               className="flex items-center gap-1.5 text-gray-400 hover:text-red-400 transition-colors text-xs font-medium"
@@ -54,14 +61,14 @@ export default function Navbar({ active, onChange, onLogout, user }) {
       </nav>
 
       {/* Bottom tab bar — mobile only */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-10 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
         <div className="flex">
           {tabs.map(({ id, label, Icon }) => (
             <button
               key={id}
               onClick={() => onChange(id)}
               className={`flex-1 flex flex-col items-center gap-0.5 pt-2 pb-3 text-xs font-medium transition-colors relative ${
-                active === id ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'
+                active === id ? 'text-blue-500' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400'
               }`}
             >
               {active === id && (

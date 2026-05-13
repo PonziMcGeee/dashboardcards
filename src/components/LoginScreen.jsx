@@ -38,7 +38,7 @@ export default function LoginScreen() {
     setError('');
   }
 
-  const inputCls = 'w-full border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-shadow';
+  const inputCls = 'w-full border border-gray-200 dark:border-gray-600 rounded-xl pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-shadow dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-500';
 
   return (
     <div className="min-h-screen flex">
@@ -85,7 +85,7 @@ export default function LoginScreen() {
       </div>
 
       {/* Right panel — form */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-[#f0f4f8]">
+      <div className="flex-1 flex items-center justify-center p-6 bg-[#f0f4f8] dark:bg-gray-900">
         <div className="w-full max-w-sm">
 
           {/* Mobile logo */}
@@ -93,13 +93,13 @@ export default function LoginScreen() {
             <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3 shadow-lg">
               🃏
             </div>
-            <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">CardTracker</h1>
+            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">CardTracker</h1>
             <p className="text-sm text-gray-400 mt-1">Tu dashboard de cartas de colección</p>
           </div>
 
           {/* Card */}
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-            <h2 className="text-xl font-extrabold text-gray-900">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-8">
+            <h2 className="text-xl font-extrabold text-gray-900 dark:text-white">
               {mode === 'login' ? 'Bienvenido de nuevo' : 'Crear cuenta'}
             </h2>
             <p className="text-sm text-gray-400 mt-1 mb-6">
@@ -108,7 +108,7 @@ export default function LoginScreen() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Email</label>
+                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">Email</label>
                 <div className="relative">
                   <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                   <input
@@ -120,7 +120,7 @@ export default function LoginScreen() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Contraseña</label>
+                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">Contraseña</label>
                 <div className="relative">
                   <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                   <input
@@ -133,7 +133,7 @@ export default function LoginScreen() {
               </div>
 
               {error && (
-                <div className="flex items-start gap-2.5 text-xs text-red-600 bg-red-50 border border-red-100 rounded-xl px-3 py-2.5">
+                <div className="flex items-start gap-2.5 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 rounded-xl px-3 py-2.5">
                   <AlertCircle size={13} className="shrink-0 mt-0.5" />
                   {error}
                 </div>
@@ -147,7 +147,7 @@ export default function LoginScreen() {
               </button>
             </form>
 
-            <div className="mt-5 pt-5 border-t border-gray-100 text-center">
+            <div className="mt-5 pt-5 border-t border-gray-100 dark:border-gray-700 text-center">
               <p className="text-xs text-gray-400">
                 {mode === 'login' ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}{' '}
                 <button onClick={switchMode} className="text-blue-600 font-semibold hover:underline">

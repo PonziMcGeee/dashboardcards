@@ -31,12 +31,12 @@ export default function PurchasesView({ purchases, collections, onAdd, onRemove,
             placeholder="Buscar compras..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="flex-1 sm:max-w-64 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="flex-1 sm:max-w-64 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-500"
           />
           <select
             value={sort}
             onChange={e => setSort(e.target.value)}
-            className="border border-gray-200 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-200 dark:border-gray-600 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-100"
           >
             <option value="date-desc">Fecha ↓</option>
             <option value="date-asc">Fecha ↑</option>
@@ -44,7 +44,7 @@ export default function PurchasesView({ purchases, collections, onAdd, onRemove,
             <option value="price-asc">Precio ↑</option>
           </select>
         </div>
-        <div className="text-sm text-gray-500 font-medium whitespace-nowrap">
+        <div className="text-sm text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap">
           {filtered.length} {filtered.length === 1 ? 'compra' : 'compras'} ·{' '}
           <span className="text-blue-600 font-semibold">
             {total.toFixed(2).replace('.', ',')} € total
