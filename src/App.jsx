@@ -11,6 +11,7 @@ import DashboardView from './components/DashboardView';
 import PurchasesView from './components/PurchasesView';
 import SalesView from './components/SalesView';
 import CollectionsView from './components/CollectionsView';
+import InventoryView from './components/InventoryView';
 import LoginScreen from './components/LoginScreen';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
   const { items: purchases, addItem: addPurchase, removeItem: removePurchase, updateItem: updatePurchase } = useData('purchases', user?.uid);
   const { items: sales, addItem: addSale, removeItem: removeSale, updateItem: updateSale } = useData('sales', user?.uid);
   const { items: collections, addItem: addCollection, removeItem: removeCollection } = useData('collections', user?.uid);
+  const { items: inventory, addItem: addInventoryItem, removeItem: removeInventoryItem, updateItem: updateInventoryItem } = useData('inventory', user?.uid);
 
   const handleAddPurchase    = async (d) => { await addPurchase(d);      toast('Compra añadida'); };
   const handleRemovePurchase = async (id) => { await removePurchase(id); toast('Compra eliminada'); };
@@ -33,6 +35,10 @@ export default function App() {
 
   const handleAddCollection    = async (d) => { await addCollection(d);      toast('Colección creada'); };
   const handleRemoveCollection = async (id) => { await removeCollection(id); toast('Colección eliminada'); };
+
+  const handleAddInventory    = async (d) => { await addInventoryItem(d);           toast('Artículo añadido'); };
+  const handleRemoveInventory = async (id) => { await removeInventoryItem(id);      toast('Artículo eliminado'); };
+  const handleUpdateInventory = async (id, d) => { await updateInventoryItem(id, d); toast('Precio actualizado'); };
 
   async function handleRenameCollection(colId, oldName, newName) {
     const uid = user.uid;
@@ -84,6 +90,9 @@ export default function App() {
           )}
           {tab === 'sales' && (
             <SalesView sales={sales} collections={collections} onAdd={handleAddSale} onRemove={handleRemoveSale} onUpdate={handleUpdateSale} />
+          )}
+          {tab === 'inventory' && (
+            <InventoryView inventory={inventory} collections={collections} onAdd={handleAddInventory} onRemove={handleRemoveInventory} onUpdate={handleUpdateInventory} />
           )}
           {tab === 'collections' && (
             <CollectionsView collections={collections} onAdd={handleAddCollection} onRemove={handleRemoveCollection} onRename={handleRenameCollection} />
