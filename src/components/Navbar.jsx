@@ -4,7 +4,6 @@ const tabs = [
   { id: 'dashboard',   label: 'Dashboard',    Icon: LayoutDashboard },
   { id: 'purchases',   label: 'Compras',       Icon: ShoppingCart },
   { id: 'sales',       label: 'Ventas',        Icon: TrendingUp },
-  { id: 'inventory',   label: 'Inventario',    Icon: Package },
   { id: 'collections', label: 'Colecciones',   Icon: FolderOpen },
 ];
 
