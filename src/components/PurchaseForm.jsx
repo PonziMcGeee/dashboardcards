@@ -71,7 +71,7 @@ export default function PurchaseForm({ onAdd, editItem, onSave, onCancel, collec
         <Field label="Colección" icon={FolderOpen}>
           {collections.length > 0 ? (
             <select name="collection" value={form.collection} onChange={handleChange} className={withIcon}>
-              {collections.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+              {collections.filter(c => c.active !== false).map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
             </select>
           ) : (
             <div className={`${withIcon} text-gray-400 bg-gray-50 dark:bg-gray-700 flex items-center`}>

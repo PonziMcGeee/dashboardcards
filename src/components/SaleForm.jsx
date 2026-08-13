@@ -64,7 +64,7 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
         <Field label="Colección" icon={FolderOpen}>
           <select name="collection" value={form.collection} onChange={handleChange} className={withIcon}>
             <option value="">— Sin colección —</option>
-            {collections.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+            {collections.filter(c => c.active !== false).map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
           </select>
         </Field>
 

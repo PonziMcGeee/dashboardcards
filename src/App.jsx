@@ -22,7 +22,7 @@ export default function App() {
 
   const { items: purchases, addItem: addPurchase, removeItem: removePurchase, updateItem: updatePurchase } = useData('purchases', user?.uid);
   const { items: sales, addItem: addSale, removeItem: removeSale, updateItem: updateSale } = useData('sales', user?.uid);
-  const { items: collections, addItem: addCollection, removeItem: removeCollection } = useData('collections', user?.uid);
+  const { items: collections, addItem: addCollection, removeItem: removeCollection, updateItem: updateCollection } = useData('collections', user?.uid);
   const { items: inventory, addItem: addInventoryItem, removeItem: removeInventoryItem, updateItem: updateInventoryItem } = useData('inventory', user?.uid);
 
   const handleAddPurchase    = async (d) => { await addPurchase(d);      toast('Compra añadida'); };
@@ -35,6 +35,7 @@ export default function App() {
 
   const handleAddCollection    = async (d) => { await addCollection(d);      toast('Colección creada'); };
   const handleRemoveCollection = async (id) => { await removeCollection(id); toast('Colección eliminada'); };
+  const handleUpdateCollection = async (id, d) => { await updateCollection(id, d); };
 
   const handleAddInventory    = async (d) => { await addInventoryItem(d);           toast('Artículo añadido'); };
   const handleRemoveInventory = async (id) => { await removeInventoryItem(id);      toast('Artículo eliminado'); };
@@ -95,7 +96,7 @@ export default function App() {
             <InventoryView inventory={inventory} collections={collections} onAdd={handleAddInventory} onRemove={handleRemoveInventory} onUpdate={handleUpdateInventory} />
           )}
           {tab === 'collections' && (
-            <CollectionsView collections={collections} onAdd={handleAddCollection} onRemove={handleRemoveCollection} onRename={handleRenameCollection} />
+            <CollectionsView collections={collections} onAdd={handleAddCollection} onRemove={handleRemoveCollection} onRename={handleRenameCollection} onUpdate={handleUpdateCollection} />
           )}
         </div>
       </main>

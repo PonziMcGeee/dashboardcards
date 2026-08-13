@@ -2,10 +2,14 @@ import { useState } from 'react';
 import { PlusCircle, Trash2, Pencil, Check, X } from 'lucide-react';
 import { COLOR_PALETTE } from '../collectionColors';
 
-export default function CollectionsView({ collections, onAdd, onRemove, onRename }) {
+export default function CollectionsView({ collections, onAdd, onRemove, onRename, onUpdate }) {
   const [name, setName] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState('');
+
+  function toggleActive(col) {
+    onUpdate(col.id, { ...col, active: col.active === false ? true : false });
+  }
 
   function handleAdd(e) {
     e.preventDefault();
@@ -82,10 +86,11 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
             {collections.map(col => {
               const color = COLOR_PALETTE[col.colorIndex % COLOR_PALETTE.length];
               const isEditing = editingId === col.id;
+              const isActive = col.active !== false;
               return (
-                <div key={col.id} className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors">
+                <div key={col.id} className={`flex items-center gap-4 px-5 py-3.5 transition-colors ${isActive ? 'hover:bg-gray-50 dark:hover:bg-gray-700/40' : 'bg-gray-50/60 dark:bg-gray-700/20'}`}>
                   {/* Color badge */}
-                  <div className={`w-5 h-5 rounded-lg shrink-0 ${color.dot} shadow-sm`} />
+                  <div className={`w-5 h-5 rounded-lg shrink-0 ${color.dot} shadow-sm ${!isActive ? 'opacity-40' : ''}`} />
 
                   {isEditing ? (
                     <>
@@ -105,7 +110,26 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
                     </>
                   ) : (
                     <>
-                      <span className="flex-1 text-sm font-semibold text-gray-800 dark:text-gray-100">{col.name}</span>
+                      <span className={`flex-1 text-sm font-semibold transition-colors ${isActive ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}>
+                        {col.name}
+                      </span>
+
+                      {/* Active toggle */}
+                      <button
+                        onClick={() => toggleActive(col)}
+                        title={isActive ? 'Desactivar colección' : 'Activar colección'}
+                        className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors focus:outline-none ${
+                          isActive ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'
+                        }`}
+                      >
+                        <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${
+                          isActive ? 'translate-x-[18px]' : 'translate-x-[3px]'
+                        }`} />
+                      </button>
+                      <span className={`text-xs w-14 ${isActive ? 'text-blue-500 font-medium' : 'text-gray-400 dark:text-gray-500'}`}>
+                        {isActive ? 'Activa' : 'Inactiva'}
+                      </span>
+
                       <button onClick={() => startEdit(col)} className="text-gray-300 hover:text-blue-400 transition-colors" title="Renombrar">
                         <Pencil size={14} />
                       </button>
