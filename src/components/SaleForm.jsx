@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { PlusCircle, Save, Calendar, Hash, Euro, FileText, StickyNote, FolderOpen, Store, Link2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { PlusCircle, Save, Calendar, Hash, Euro, FileText, StickyNote, FolderOpen, Store, Link2, X, Search } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { getRemainingQty } from '../utils/roi';
@@ -20,6 +20,10 @@ function fmtDate(dateStr) {
   } catch {
     return dateStr;
   }
+}
+
+function purchaseLabel(p) {
+  return `${fmtDate(p.date)} — ${p.description}`;
 }
 
 function Field({ label, icon: Icon, children }) {
@@ -44,6 +48,32 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
       : emptyForm(today)
   );
 
+  const initialLinked = isEdit ? purchases.find(p => p.id === editItem.purchaseId) : null;
+  const [purchaseQuery, setPurchaseQuery] = useState(initialLinked ? purchaseLabel(initialLinked) : '');
+  const [showPurchaseDropdown, setShowPurchaseDropdown] = useState(false);
+  const purchaseBoxRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (purchaseBoxRef.current && !purchaseBoxRef.current.contains(e.target)) {
+        setShowPurchaseDropdown(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  function selectPurchase(p) {
+    setForm(prev => ({ ...prev, purchaseId: p.id }));
+    setPurchaseQuery(purchaseLabel(p));
+    setShowPurchaseDropdown(false);
+  }
+
+  function clearPurchaseLink() {
+    setForm(prev => ({ ...prev, purchaseId: '' }));
+    setPurchaseQuery('');
+  }
+
   function handleChange(e) {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
@@ -67,6 +97,15 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
   const linkablePurchases = purchases
     .filter(p => getRemainingQty(p, sales, isEdit ? editItem.id : null) > 0 || p.id === form.purchaseId)
     .sort((a, b) => b.date.localeCompare(a.date));
+
+  const purchaseSearchTerm = purchaseQuery.trim().toLowerCase();
+  const purchaseMatches = linkablePurchases
+    .filter(p =>
+      !purchaseSearchTerm ||
+      p.description.toLowerCase().includes(purchaseSearchTerm) ||
+      (p.collection || '').toLowerCase().includes(purchaseSearchTerm)
+    )
+    .slice(0, 8);
 
   const selectedPurchase = purchases.find(p => p.id === form.purchaseId);
   const previewQty = Number(form.quantity) || 0;
@@ -124,17 +163,57 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
           />
         </Field>
 
-        <div className="sm:col-span-2">
+        <div className="sm:col-span-2 relative" ref={purchaseBoxRef}>
           <Field label="Vincular a compra (opcional)" icon={Link2}>
-            <select name="purchaseId" value={form.purchaseId} onChange={handleChange} className={withIcon}>
-              <option value="">— Sin vincular —</option>
-              {linkablePurchases.map(p => (
-                <option key={p.id} value={p.id}>
-                  {fmtDate(p.date)} — {p.description} (quedan {getRemainingQty(p, sales, isEdit ? editItem.id : null)})
-                </option>
-              ))}
-            </select>
+            <input
+              type="text"
+              value={purchaseQuery}
+              onChange={e => {
+                setPurchaseQuery(e.target.value);
+                setShowPurchaseDropdown(true);
+                if (form.purchaseId) setForm(prev => ({ ...prev, purchaseId: '' }));
+              }}
+              onFocus={() => setShowPurchaseDropdown(true)}
+              placeholder="Buscar por descripción..."
+              autoComplete="off"
+              className={`${withIcon} ${form.purchaseId ? 'pr-9' : ''}`}
+            />
+            {form.purchaseId && (
+              <button
+                type="button"
+                onClick={clearPurchaseLink}
+                title="Quitar vínculo"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors"
+              >
+                <X size={14} />
+              </button>
+            )}
           </Field>
+
+          {showPurchaseDropdown && (
+            <div className="absolute z-20 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg max-h-56 overflow-y-auto">
+              {purchaseMatches.length > 0 ? (
+                purchaseMatches.map(p => (
+                  <button
+                    type="button"
+                    key={p.id}
+                    onClick={() => selectPurchase(p)}
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between gap-2 transition-colors"
+                  >
+                    <span className="truncate text-gray-700 dark:text-gray-200">{purchaseLabel(p)}</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500 shrink-0">
+                      quedan {getRemainingQty(p, sales, isEdit ? editItem.id : null)}
+                    </span>
+                  </button>
+                ))
+              ) : (
+                <div className="flex items-center gap-2 px-3 py-3 text-xs text-gray-400 dark:text-gray-500">
+                  <Search size={13} />
+                  Sin compras que coincidan
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="sm:col-span-2">
