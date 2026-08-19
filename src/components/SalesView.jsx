@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SaleForm from './SaleForm';
 import ItemList from './ItemList';
 
-export default function SalesView({ sales, collections, onAdd, onRemove, onUpdate }) {
+export default function SalesView({ sales, purchases = [], collections, onAdd, onRemove, onUpdate }) {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('date-desc');
 
@@ -23,7 +23,7 @@ export default function SalesView({ sales, collections, onAdd, onRemove, onUpdat
 
   return (
     <div className="space-y-5">
-      <SaleForm onAdd={onAdd} collections={collections} />
+      <SaleForm onAdd={onAdd} collections={collections} purchases={purchases} sales={sales} />
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex gap-2 flex-1">
           <input
@@ -51,7 +51,7 @@ export default function SalesView({ sales, collections, onAdd, onRemove, onUpdat
           </span>
         </div>
       </div>
-      <ItemList items={sorted} type="sale" onRemove={onRemove} onUpdate={onUpdate} collections={collections} />
+      <ItemList items={sorted} type="sale" onRemove={onRemove} onUpdate={onUpdate} collections={collections} purchases={purchases} />
     </div>
   );
 }

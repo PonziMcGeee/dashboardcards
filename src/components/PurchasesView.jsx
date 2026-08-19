@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PurchaseForm from './PurchaseForm';
 import ItemList from './ItemList';
 
-export default function PurchasesView({ purchases, collections, onAdd, onRemove, onUpdate }) {
+export default function PurchasesView({ purchases, sales = [], collections, onAdd, onRemove, onUpdate }) {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('date-desc');
 
@@ -51,7 +51,7 @@ export default function PurchasesView({ purchases, collections, onAdd, onRemove,
           </span>
         </div>
       </div>
-      <ItemList items={sorted} type="purchase" onRemove={onRemove} onUpdate={onUpdate} collections={collections} />
+      <ItemList items={sorted} type="purchase" onRemove={onRemove} onUpdate={onUpdate} collections={collections} sales={sales} />
     </div>
   );
 }

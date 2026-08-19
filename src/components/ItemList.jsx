@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Trash2, Tag, Calendar, StickyNote, Pencil, ShoppingCart, TrendingUp } from 'lucide-react';
+import { Trash2, Tag, Calendar, StickyNote, Pencil, ShoppingCart, TrendingUp, Link2 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Modal from './Modal';
 import PurchaseForm from './PurchaseForm';
 import SaleForm from './SaleForm';
 import { getCollectionColor } from '../collectionColors';
+import { getPurchaseROI, getSaleProfit } from '../utils/roi';
 
 function fmt(n) {
   return n.toFixed(2).replace('.', ',') + ' €';
@@ -77,7 +78,7 @@ function EmptyState({ type }) {
   );
 }
 
-export default function ItemList({ items, type, onRemove, onUpdate, collections = [] }) {
+export default function ItemList({ items, type, onRemove, onUpdate, collections = [], purchases = [], sales = [] }) {
   const [editingItem, setEditingItem] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
 
@@ -92,7 +93,10 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
     <>
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
         <div className="divide-y divide-gray-50 dark:divide-gray-700">
-          {items.map(item => (
+          {items.map(item => {
+            const roi = type === 'purchase' ? getPurchaseROI(item, sales) : null;
+            const saleProfit = type === 'sale' ? getSaleProfit(item, purchases) : null;
+            return (
             <div key={item.id} className="item-fade-in flex items-start justify-between gap-4 p-4 hover:bg-slate-50 dark:hover:bg-gray-700/40 transition-colors group">
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-1">
@@ -118,6 +122,23 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                     </span>
                   )}
                 </div>
+                {type === 'purchase' && roi.soldQty > 0 && (
+                  <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs">
+                    <span className="text-gray-400 dark:text-gray-500">Vendido {roi.soldQty}/{item.quantity}</span>
+                    <span className={`font-semibold ${roi.profit >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                      {roi.profit >= 0 ? '+' : ''}{fmt(roi.profit)}{roi.roiPct !== null && ` · ROI ${roi.roiPct.toFixed(0)}%`}
+                    </span>
+                  </div>
+                )}
+                {type === 'sale' && saleProfit && (
+                  <div className="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs">
+                    <Link2 size={11} className="text-gray-400 dark:text-gray-500 shrink-0" />
+                    <span className="text-gray-400 dark:text-gray-500 truncate">de "{saleProfit.purchase.description}"</span>
+                    <span className={`font-semibold shrink-0 ${saleProfit.profit >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                      {saleProfit.profit >= 0 ? '+' : ''}{fmt(saleProfit.profit)}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="flex flex-col items-end gap-1 shrink-0">
                 <span className={`font-bold text-sm ${type === 'sale' ? 'text-green-600' : 'text-gray-800 dark:text-gray-100'}`}>
@@ -159,7 +180,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 )}
               </div>
             </div>
-          ))}
+          );})}
         </div>
       </div>
 
@@ -171,7 +192,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
           {type === 'purchase' ? (
             <PurchaseForm editItem={editingItem} onSave={handleSave} onCancel={() => setEditingItem(null)} collections={collections} />
           ) : (
-            <SaleForm editItem={editingItem} onSave={handleSave} onCancel={() => setEditingItem(null)} collections={collections} />
+            <SaleForm editItem={editingItem} onSave={handleSave} onCancel={() => setEditingItem(null)} collections={collections} purchases={purchases} sales={sales} />
           )}
         </Modal>
       )}

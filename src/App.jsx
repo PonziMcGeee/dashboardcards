@@ -6,6 +6,7 @@ import { useAuth } from './hooks/useAuth';
 import { useData } from './hooks/useData';
 import { useTheme } from './hooks/useTheme';
 import { useToast } from './components/Toast';
+import { exportAllToExcel } from './utils/exportExcel';
 import Navbar from './components/Navbar';
 import DashboardView from './components/DashboardView';
 import PurchasesView from './components/PurchasesView';
@@ -41,6 +42,11 @@ export default function App() {
   const handleRemoveInventory = async (id) => { await removeInventoryItem(id);      toast('Artículo eliminado'); };
   const handleUpdateInventory = async (id, d) => { await updateInventoryItem(id, d); toast('Precio actualizado'); };
 
+  function handleExport() {
+    exportAllToExcel(purchases, sales, inventory);
+    toast('Excel exportado');
+  }
+
   async function handleRenameCollection(colId, oldName, newName) {
     const uid = user.uid;
     const batch = writeBatch(db);
@@ -72,7 +78,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f0f4f8] dark:bg-gray-900">
-      <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} dark={dark} onToggleTheme={toggleTheme} />
+      <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} dark={dark} onToggleTheme={toggleTheme} onExport={handleExport} />
       <main className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:pb-6">
         <div key={tab} className="tab-enter">
           {tab === 'dashboard' && (
@@ -87,10 +93,10 @@ export default function App() {
             />
           )}
           {tab === 'purchases' && (
-            <PurchasesView purchases={purchases} collections={collections} onAdd={handleAddPurchase} onRemove={handleRemovePurchase} onUpdate={handleUpdatePurchase} />
+            <PurchasesView purchases={purchases} sales={sales} collections={collections} onAdd={handleAddPurchase} onRemove={handleRemovePurchase} onUpdate={handleUpdatePurchase} />
           )}
           {tab === 'sales' && (
-            <SalesView sales={sales} collections={collections} onAdd={handleAddSale} onRemove={handleRemoveSale} onUpdate={handleUpdateSale} />
+            <SalesView sales={sales} purchases={purchases} collections={collections} onAdd={handleAddSale} onRemove={handleRemoveSale} onUpdate={handleUpdateSale} />
           )}
           {tab === 'inventory' && (
             <InventoryView inventory={inventory} collections={collections} onAdd={handleAddInventory} onRemove={handleRemoveInventory} onUpdate={handleUpdateInventory} />

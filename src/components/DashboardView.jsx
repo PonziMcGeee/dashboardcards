@@ -259,11 +259,11 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
           <ListControls title="Compras" count={filteredPurchases.length} search={purchaseSearch} onSearch={setPurchaseSearch} sort={purchaseSort} onSort={setPurchaseSort} />
-          <ItemList items={applyListFilters(filteredPurchases, purchaseSearch, purchaseSort)} type="purchase" onRemove={onRemovePurchase} onUpdate={onUpdatePurchase} collections={collections} />
+          <ItemList items={applyListFilters(filteredPurchases, purchaseSearch, purchaseSort)} type="purchase" onRemove={onRemovePurchase} onUpdate={onUpdatePurchase} collections={collections} sales={sales} />
         </div>
         <div>
           <ListControls title="Ventas" count={filteredSales.length} search={saleSearch} onSearch={setSaleSearch} sort={saleSort} onSort={setSaleSort} />
-          <ItemList items={applyListFilters(filteredSales, saleSearch, saleSort)} type="sale" onRemove={onRemoveSale} onUpdate={onUpdateSale} collections={collections} />
+          <ItemList items={applyListFilters(filteredSales, saleSearch, saleSort)} type="sale" onRemove={onRemoveSale} onUpdate={onUpdateSale} collections={collections} purchases={purchases} />
         </div>
       </div>
     </div>

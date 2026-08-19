@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, TrendingUp, LogOut, FolderOpen, Moon, Sun, Package } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, TrendingUp, LogOut, FolderOpen, Moon, Sun, Package, Download } from 'lucide-react';
 
 const tabs = [
   { id: 'dashboard',   label: 'Dashboard',    Icon: LayoutDashboard },
@@ -7,7 +7,7 @@ const tabs = [
   { id: 'collections', label: 'Colecciones',   Icon: FolderOpen },
 ];
 
-export default function Navbar({ active, onChange, onLogout, user, dark, onToggleTheme }) {
+export default function Navbar({ active, onChange, onLogout, user, dark, onToggleTheme, onExport }) {
   return (
     <>
       {/* Top bar */}
@@ -41,6 +41,13 @@ export default function Navbar({ active, onChange, onLogout, user, dark, onToggl
 
           <div className="flex items-center gap-3 ml-auto shrink-0">
             <span className="text-xs text-gray-500 hidden sm:block truncate max-w-32">{user?.email}</span>
+            <button
+              onClick={onExport}
+              title="Exportar a Excel"
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              <Download size={16} />
+            </button>
             <button
               onClick={onToggleTheme}
               title={dark ? 'Modo claro' : 'Modo oscuro'}
