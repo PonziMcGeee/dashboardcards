@@ -45,8 +45,8 @@ function buildChartData(purchases, sales, dateFrom, dateTo) {
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg p-3 text-xs">
-      <p className="font-semibold text-gray-700 dark:text-gray-200 mb-2">{label}</p>
+    <div className="bg-white dark:bg-stone-700 border border-stone-200 dark:border-stone-600 rounded-xl shadow-lg p-3 text-xs">
+      <p className="font-semibold text-stone-700 dark:text-stone-200 mb-2">{label}</p>
       {payload.map(p => (
         <p key={p.name} style={{ color: p.color }} className="font-medium">
           {p.name}: {p.value.toFixed(2)} €
@@ -60,10 +60,10 @@ export default function SpendingChart({ purchases, sales, dateFrom, dateTo, labe
   const data = buildChartData(purchases, sales, dateFrom, dateTo);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-      <h2 className="text-base font-bold text-gray-800 dark:text-gray-100 mb-4">{label || 'Últimos 30 días'}</h2>
+    <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6">
+      <h2 className="text-base font-bold text-stone-800 dark:text-stone-100 mb-4">{label || 'Últimos 30 días'}</h2>
       {data.length === 0 ? (
-        <div className="flex items-center justify-center h-[220px] text-gray-500 dark:text-gray-400 text-sm">
+        <div className="flex items-center justify-center h-[220px] text-stone-500 dark:text-stone-400 text-sm">
           Sin datos para el período seleccionado
         </div>
       ) : (
@@ -71,8 +71,8 @@ export default function SpendingChart({ purchases, sales, dateFrom, dateTo, labe
           <AreaChart data={data} margin={{ top: 4, right: 8, left: -10, bottom: 0 }}>
             <defs>
               <linearGradient id="gradCompras" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.25} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                <stop offset="5%" stopColor="#d97706" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#d97706" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="gradVentas" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#22c55e" stopOpacity={0.25} />
@@ -82,20 +82,20 @@ export default function SpendingChart({ purchases, sales, dateFrom, dateTo, labe
             <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 10, fill: '#9ca3af' }}
+              tick={{ fontSize: 10, fill: '#a8a29e' }}
               interval="preserveStartEnd"
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              tick={{ fontSize: 10, fill: '#9ca3af' }}
+              tick={{ fontSize: 10, fill: '#a8a29e' }}
               axisLine={false}
               tickLine={false}
               tickFormatter={v => v + '€'}
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ fontSize: 12 }} />
-            <Area type="monotone" dataKey="Compras" stroke="#3b82f6" strokeWidth={2} fill="url(#gradCompras)" />
+            <Area type="monotone" dataKey="Compras" stroke="#d97706" strokeWidth={2} fill="url(#gradCompras)" />
             <Area type="monotone" dataKey="Ventas" stroke="#22c55e" strokeWidth={2} fill="url(#gradVentas)" />
           </AreaChart>
         </ResponsiveContainer>

@@ -63,10 +63,10 @@ export default function App() {
 
   if (user === undefined) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-stone-50 dark:bg-stone-900 flex items-center justify-center">
         <div className="text-center">
           <span className="text-4xl">🃏</span>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">Cargando...</p>
+          <p className="text-sm text-stone-500 dark:text-stone-400 mt-3">Cargando...</p>
         </div>
       </div>
     );
@@ -77,7 +77,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f4f8] dark:bg-gray-900">
+    <div className="min-h-screen bg-[#f7f5f2] dark:bg-stone-900">
       <Navbar active={tab} onChange={setTab} user={user} onLogout={() => signOut(auth)} dark={dark} onToggleTheme={toggleTheme} onExport={handleExport} />
       <main className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:pb-6">
         <div key={tab} className="tab-enter">

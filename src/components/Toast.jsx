@@ -23,13 +23,13 @@ export function ToastProvider({ children }) {
         {toasts.map(t => (
           <div
             key={t.id}
-            className="flex items-center gap-2.5 pl-3 pr-2 py-2.5 rounded-xl border border-gray-200 bg-white shadow-lg text-sm font-medium text-gray-800 pointer-events-auto toast-enter"
+            className="flex items-center gap-2.5 pl-3 pr-2 py-2.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 shadow-lg text-sm font-medium text-stone-800 dark:text-stone-100 pointer-events-auto toast-enter"
           >
-            <CheckCircle size={15} className="text-green-500 shrink-0" />
+            <CheckCircle size={15} className="text-emerald-500 shrink-0" />
             {t.message}
             <button
               onClick={() => dismiss(t.id)}
-              className="ml-1 text-gray-300 hover:text-gray-500 transition-colors"
+              className="ml-1 text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 transition-colors"
             >
               <X size={13} />
             </button>

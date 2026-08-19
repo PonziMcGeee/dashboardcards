@@ -1,8 +1,8 @@
 import { ArrowUp, ArrowDown } from 'lucide-react';
 
-export default function StatCard({ label, value, sub, color = 'blue', icon: Icon, trend }) {
+export default function StatCard({ label, value, sub, color = 'amber', icon: Icon, trend }) {
   const colors = {
-    blue:   'from-blue-500 to-blue-700',
+    amber:  'from-amber-500 to-amber-700',
     green:  'from-emerald-500 to-emerald-700',
     red:    'from-red-500 to-red-700',
     purple: 'from-violet-500 to-violet-700',

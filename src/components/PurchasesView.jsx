@@ -31,12 +31,12 @@ export default function PurchasesView({ purchases, sales = [], collections, onAd
             placeholder="Buscar compras..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="flex-1 sm:max-w-64 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-500"
+            className="flex-1 sm:max-w-64 border border-stone-200 dark:border-stone-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 dark:bg-stone-700 dark:text-stone-100 dark:placeholder-stone-500"
           />
           <select
             value={sort}
             onChange={e => setSort(e.target.value)}
-            className="border border-gray-200 dark:border-gray-600 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-100"
+            className="border border-stone-200 dark:border-stone-600 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 dark:bg-stone-700 dark:text-stone-100"
           >
             <option value="date-desc">Fecha ↓</option>
             <option value="date-asc">Fecha ↑</option>
@@ -44,9 +44,9 @@ export default function PurchasesView({ purchases, sales = [], collections, onAd
             <option value="price-asc">Precio ↑</option>
           </select>
         </div>
-        <div className="text-sm text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap">
+        <div className="text-sm text-stone-500 dark:text-stone-400 font-medium whitespace-nowrap">
           {filtered.length} {filtered.length === 1 ? 'compra' : 'compras'} ·{' '}
-          <span className="text-blue-600 font-semibold">
+          <span className="text-amber-600 dark:text-amber-400 font-semibold">
             {total.toFixed(2).replace('.', ',')} € total
           </span>
         </div>

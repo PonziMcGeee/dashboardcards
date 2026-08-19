@@ -11,6 +11,6 @@ export const COLOR_PALETTE = [
 
 export function getCollectionColor(collections, name) {
   const col = collections.find(c => c.name === name);
-  if (!col) return { dot: 'bg-gray-400', badge: 'bg-gray-100 text-gray-600' };
+  if (!col) return { dot: 'bg-stone-400', badge: 'bg-stone-100 text-stone-600' };
   return COLOR_PALETTE[col.colorIndex % COLOR_PALETTE.length];
 }

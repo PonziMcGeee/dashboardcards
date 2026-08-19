@@ -32,9 +32,9 @@ function Field({ label, icon: Icon, children }) {
   const linkedControl = isValidElement(control) ? cloneElement(control, { id: control.props.id ?? id }) : control;
   return (
     <div>
-      <label htmlFor={id} className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
+      <label htmlFor={id} className="block text-xs font-semibold text-stone-500 dark:text-stone-400 mb-1.5 uppercase tracking-wide">{label}</label>
       <div className="relative">
-        {Icon && <Icon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />}
+        {Icon && <Icon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />}
         {linkedControl}
         {rest}
       </div>
@@ -125,12 +125,12 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
       })()
     : null;
 
-  const base = 'w-full border border-gray-200 dark:border-gray-600 rounded-xl py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-shadow dark:bg-gray-700 dark:text-gray-100';
+  const base = 'w-full border border-stone-200 dark:border-stone-600 rounded-xl py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-shadow dark:bg-stone-700 dark:text-stone-100';
   const withIcon = `${base} pl-9 pr-3`;
 
   return (
-    <form onSubmit={handleSubmit} className={isEdit ? '' : 'bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6'}>
-      {!isEdit && <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-5">Nueva Venta</h2>}
+    <form onSubmit={handleSubmit} className={isEdit ? '' : 'bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6'}>
+      {!isEdit && <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-5">Nueva Venta</h2>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         <Field label="Fecha" icon={Calendar}>
@@ -189,7 +189,7 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
                 type="button"
                 onClick={clearPurchaseLink}
                 title="Quitar vínculo"
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:!text-red-500 dark:hover:!text-red-400 transition-colors"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-500 dark:text-stone-400 hover:!text-red-500 dark:hover:!text-red-400 transition-colors"
               >
                 <X size={14} />
               </button>
@@ -197,23 +197,23 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
           </Field>
 
           {showPurchaseDropdown && (
-            <div className="absolute z-20 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg max-h-56 overflow-y-auto">
+            <div className="absolute z-20 mt-1 w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-600 rounded-xl shadow-lg max-h-56 overflow-y-auto">
               {purchaseMatches.length > 0 ? (
                 purchaseMatches.map(p => (
                   <button
                     type="button"
                     key={p.id}
                     onClick={() => selectPurchase(p)}
-                    className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between gap-2 transition-colors"
+                    className="w-full text-left px-3 py-2 text-sm hover:bg-stone-50 dark:hover:bg-stone-700 flex items-center justify-between gap-2 transition-colors"
                   >
-                    <span className="truncate text-gray-700 dark:text-gray-200">{purchaseLabel(p)}</span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 shrink-0">
+                    <span className="truncate text-stone-700 dark:text-stone-200">{purchaseLabel(p)}</span>
+                    <span className="text-xs text-stone-500 dark:text-stone-400 shrink-0">
                       quedan {getRemainingQty(p, sales, isEdit ? editItem.id : null)}
                     </span>
                   </button>
                 ))
               ) : (
-                <div className="flex items-center gap-2 px-3 py-3 text-xs text-gray-500 dark:text-gray-400">
+                <div className="flex items-center gap-2 px-3 py-3 text-xs text-stone-500 dark:text-stone-400">
                   <Search size={13} />
                   Sin compras que coincidan
                 </div>
@@ -251,7 +251,7 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
           {isEdit ? <><Save size={15} /> Guardar cambios</> : <><PlusCircle size={16} /> Añadir venta</>}
         </button>
         {isEdit && (
-          <button type="button" onClick={onCancel} className="px-4 py-2.5 rounded-xl text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          <button type="button" onClick={onCancel} className="px-4 py-2.5 rounded-xl text-sm text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors">
             Cancelar
           </button>
         )}

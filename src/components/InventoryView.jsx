@@ -32,7 +32,7 @@ export default function InventoryView({ inventory, collections, onAdd, onRemove,
   const totalGain     = totalValue - totalInvested;
   const gainPct       = totalInvested > 0 ? (totalGain / totalInvested) * 100 : null;
 
-  const inputCls = 'border border-gray-200 dark:border-gray-600 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-gray-700 dark:text-gray-100';
+  const inputCls = 'border border-stone-200 dark:border-stone-600 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-stone-700 dark:text-stone-100';
 
   return (
     <div className="space-y-5">
@@ -44,7 +44,7 @@ export default function InventoryView({ inventory, collections, onAdd, onRemove,
             label="Total invertido"
             value={fmt(totalInvested)}
             sub={`${inventory.length} ${inventory.length === 1 ? 'artículo' : 'artículos'}`}
-            color="blue"
+            color="amber"
             icon={Package}
           />
           <StatCard
@@ -89,7 +89,7 @@ export default function InventoryView({ inventory, collections, onAdd, onRemove,
               <option value="value-desc">Valor actual ↓</option>
             </select>
           </div>
-          <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+          <span className="text-sm text-stone-500 dark:text-stone-400 whitespace-nowrap">
             {filtered.length} {filtered.length === 1 ? 'artículo' : 'artículos'}
           </span>
         </div>

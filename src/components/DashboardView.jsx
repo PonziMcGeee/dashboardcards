@@ -124,13 +124,13 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
     return { name: col.name, color: COLOR_PALETTE[col.colorIndex % COLOR_PALETTE.length], spent, sold, pct };
   });
 
-  const inputCls = 'border border-gray-200 dark:border-gray-600 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-100';
+  const inputCls = 'border border-stone-200 dark:border-stone-600 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-400 dark:bg-stone-700 dark:text-stone-100';
 
   return (
     <div className="space-y-6">
 
       {/* Filter bar */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 space-y-3">
+      <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-4 space-y-3">
         <div className="flex flex-wrap gap-3 items-center">
           {/* Collection selector */}
           <select
@@ -145,15 +145,15 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
           </select>
 
           {/* Segmented date control */}
-          <div className="flex bg-gray-100 dark:bg-gray-700 rounded-xl p-1 gap-0.5">
+          <div className="flex bg-stone-100 dark:bg-stone-700 rounded-xl p-1 gap-0.5">
             {DATE_PRESETS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setDatePreset(key)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   datePreset === key
-                    ? 'bg-white dark:bg-gray-600 text-gray-800 dark:text-gray-100 shadow-sm'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                    ? 'bg-white dark:bg-stone-600 text-stone-800 dark:text-stone-100 shadow-sm'
+                    : 'text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200'
                 }`}
               >
                 {label}
@@ -163,10 +163,10 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
         </div>
 
         {datePreset === 'custom' && (
-          <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-gray-50 dark:border-gray-700">
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Desde</span>
+          <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-stone-50 dark:border-stone-700">
+            <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Desde</span>
             <input type="date" value={customFrom} onChange={e => setCustomFrom(e.target.value)} className={inputCls} />
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">hasta</span>
+            <span className="text-xs font-medium text-stone-500 dark:text-stone-400">hasta</span>
             <input type="date" value={customTo} onChange={e => setCustomTo(e.target.value)} className={inputCls} />
           </div>
         )}
@@ -174,7 +174,7 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
 
       {/* Stats cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard label="Gasto total"    value={fmt(totalSpent)} sub={selectedPresetLabel} color="blue"                           icon={ShoppingCart} trend={calcTrend(totalSpent, prevSpent)} />
+        <StatCard label="Gasto total"    value={fmt(totalSpent)} sub={selectedPresetLabel} color="amber"                           icon={ShoppingCart} trend={calcTrend(totalSpent, prevSpent)} />
         <StatCard label="Ventas totales" value={fmt(totalSales)} sub={selectedPresetLabel} color="green"                          icon={TrendingUp}   trend={calcTrend(totalSales, prevSalesTotal)} />
         <StatCard label="Beneficio neto" value={fmt(balance)}    sub="Ventas − Compras"    color={balance >= 0 ? 'green' : 'red'} icon={Wallet}       trend={calcTrend(balance, prevBalance)} />
       </div>
@@ -198,35 +198,35 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
           <SectionLabel>Mis colecciones</SectionLabel>
           <div className={`grid grid-cols-1 gap-4 ${byCollection.length >= 3 ? 'md:grid-cols-3' : byCollection.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1 max-w-sm'}`}>
             {byCollection.map(({ name, color, spent, sold, pct }) => (
-              <div key={name} className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700">
+              <div key={name} className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm overflow-hidden border border-stone-100 dark:border-stone-700">
                 <div className={`h-1.5 ${color.dot}`} />
                 <div className="p-5">
-                  <h3 className="font-bold text-gray-800 dark:text-gray-100 mb-3">{name}</h3>
+                  <h3 className="font-bold text-stone-800 dark:text-stone-100 mb-3">{name}</h3>
                   <div className="space-y-1.5 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-500 dark:text-gray-400">Gastado</span>
-                      <span className="font-semibold text-gray-800 dark:text-gray-100">{fmt(spent)}</span>
+                      <span className="text-stone-500 dark:text-stone-400">Gastado</span>
+                      <span className="font-semibold text-stone-800 dark:text-stone-100">{fmt(spent)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-500 dark:text-gray-400">Vendido</span>
+                      <span className="text-stone-500 dark:text-stone-400">Vendido</span>
                       <span className="font-semibold text-green-600">{fmt(sold)}</span>
                     </div>
-                    <div className="flex justify-between border-t border-gray-50 dark:border-gray-700 pt-1.5">
-                      <span className="text-gray-500 dark:text-gray-400">Balance</span>
+                    <div className="flex justify-between border-t border-stone-50 dark:border-stone-700 pt-1.5">
+                      <span className="text-stone-500 dark:text-stone-400">Balance</span>
                       <span className={`font-bold ${sold - spent >= 0 ? 'text-green-600' : 'text-red-500'}`}>
                         {sold - spent >= 0 ? '+' : ''}{fmt(sold - spent)}
                       </span>
                     </div>
                   </div>
                   <div className="mt-3">
-                    <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    <div className="flex justify-between text-xs text-stone-500 dark:text-stone-400 mb-1">
                       <span>Recuperado</span>
                       <span className="font-medium">{pct.toFixed(0)}%</span>
                     </div>
-                    <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-stone-100 dark:bg-stone-700 rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-700"
-                        style={{ width: `${pct}%`, backgroundColor: pct >= 100 ? '#22c55e' : '#60a5fa' }}
+                        style={{ width: `${pct}%`, backgroundColor: pct >= 100 ? '#22c55e' : '#d97706' }}
                       />
                     </div>
                   </div>
@@ -240,14 +240,14 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
       <SectionLabel>Análisis</SectionLabel>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <CategoryChart purchases={filteredPurchases} />
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-          <h2 className="text-base font-bold text-gray-800 dark:text-gray-100 mb-3">Resumen rápido</h2>
+        <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6">
+          <h2 className="text-base font-bold text-stone-800 dark:text-stone-100 mb-3">Resumen rápido</h2>
           <div className="space-y-3 text-sm">
             <Row label="Compras registradas" value={filteredPurchases.length} />
             <Row label="Ventas registradas"  value={filteredSales.length} />
             <Row label="Artículos comprados" value={filteredPurchases.reduce((s, p) => s + p.quantity, 0)} />
             <Row label="Artículos vendidos"  value={filteredSales.reduce((s, v) => s + v.quantity, 0)} />
-            <div className="border-t border-gray-100 dark:border-gray-700 pt-3">
+            <div className="border-t border-stone-100 dark:border-stone-700 pt-3">
               <Row label="Gasto promedio/compra" value={filteredPurchases.length ? fmt(totalSpent / filteredPurchases.length) : '—'} />
               <Row label="Precio promedio/venta" value={filteredSales.length ? fmt(totalSales / filteredSales.length) : '—'} />
             </div>
@@ -273,8 +273,8 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
 function SectionLabel({ children }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest whitespace-nowrap">{children}</span>
-      <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+      <span className="text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-widest whitespace-nowrap">{children}</span>
+      <div className="flex-1 h-px bg-stone-200 dark:bg-stone-700" />
     </div>
   );
 }
@@ -282,8 +282,8 @@ function SectionLabel({ children }) {
 function Row({ label, value }) {
   return (
     <div className="flex justify-between items-center text-sm">
-      <span className="text-gray-500 dark:text-gray-400">{label}</span>
-      <span className="font-semibold text-gray-800 dark:text-gray-100">{value}</span>
+      <span className="text-stone-500 dark:text-stone-400">{label}</span>
+      <span className="font-semibold text-stone-800 dark:text-stone-100">{value}</span>
     </div>
   );
 }
@@ -292,8 +292,8 @@ function ListControls({ title, count, search, onSearch, sort, onSort }) {
   return (
     <div className="mb-3 space-y-2">
       <div className="flex items-center gap-2">
-        <h2 className="text-base font-semibold text-gray-800 dark:text-gray-100">{title}</h2>
-        {count > 0 && <span className="text-xs text-gray-500 dark:text-gray-400">{count}</span>}
+        <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100">{title}</h2>
+        {count > 0 && <span className="text-xs text-stone-500 dark:text-stone-400">{count}</span>}
       </div>
       <div className="flex gap-2">
         <input
@@ -301,12 +301,12 @@ function ListControls({ title, count, search, onSearch, sort, onSort }) {
           value={search}
           onChange={e => onSearch(e.target.value)}
           placeholder="Buscar descripción o notas..."
-          className="flex-1 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-500"
+          className="flex-1 border border-stone-200 dark:border-stone-600 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-400 dark:bg-stone-700 dark:text-stone-100 dark:placeholder-stone-500"
         />
         <select
           value={sort}
           onChange={e => onSort(e.target.value)}
-          className="border border-gray-200 dark:border-gray-600 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-gray-100"
+          className="border border-stone-200 dark:border-stone-600 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-400 dark:bg-stone-700 dark:text-stone-100"
         >
           <option value="date-desc">Fecha ↓</option>
           <option value="date-asc">Fecha ↑</option>

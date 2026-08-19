@@ -29,12 +29,12 @@ function CollectionBadge({ collection, collections }) {
 
 function EmptyState() {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-10 text-center">
-      <div className="inline-flex items-center justify-center w-14 h-14 bg-gray-50 dark:bg-gray-700 rounded-2xl mb-4">
-        <Package size={24} className="text-gray-300 dark:text-gray-600" />
+    <div className="bg-white dark:bg-stone-800 rounded-2xl border border-stone-100 dark:border-stone-700 shadow-sm p-10 text-center">
+      <div className="inline-flex items-center justify-center w-14 h-14 bg-stone-50 dark:bg-stone-700 rounded-2xl mb-4">
+        <Package size={24} className="text-stone-300 dark:text-stone-600" />
       </div>
-      <p className="font-semibold text-gray-500 dark:text-gray-400 text-sm">Sin artículos en el inventario</p>
-      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Añade tu primer artículo para empezar a trackear precios.</p>
+      <p className="font-semibold text-stone-500 dark:text-stone-400 text-sm">Sin artículos en el inventario</p>
+      <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">Añade tu primer artículo para empezar a trackear precios.</p>
     </div>
   );
 }
@@ -67,8 +67,8 @@ export default function InventoryList({ items, onRemove, onUpdate, collections =
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
-        <div className="divide-y divide-gray-50 dark:divide-gray-700">
+      <div className="bg-white dark:bg-stone-800 rounded-2xl border border-stone-100 dark:border-stone-700 shadow-sm overflow-hidden">
+        <div className="divide-y divide-stone-50 dark:divide-stone-700">
           {items.map(item => {
             const invested = item.quantity * item.purchasePrice;
             const currentValue = item.quantity * item.currentPrice;
@@ -77,16 +77,16 @@ export default function InventoryList({ items, onRemove, onUpdate, collections =
             const isEditingPrice = editingPriceId === item.id;
 
             return (
-              <div key={item.id} className="item-fade-in p-4 hover:bg-slate-50 dark:hover:bg-gray-700/40 transition-colors group">
+              <div key={item.id} className="item-fade-in p-4 hover:bg-slate-50 dark:hover:bg-stone-700/40 transition-colors group">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     {/* Name + collection */}
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="font-medium text-gray-800 dark:text-gray-100 text-sm">{item.description}</span>
+                      <span className="font-medium text-stone-800 dark:text-stone-100 text-sm">{item.description}</span>
                       {item.collection && <CollectionBadge collection={item.collection} collections={collections} />}
                     </div>
                     {/* Meta */}
-                    <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400 mb-2.5">
+                    <div className="flex flex-wrap gap-3 text-xs text-stone-500 dark:text-stone-400 mb-2.5">
                       <span className="flex items-center gap-1">
                         <Calendar size={11} />
                         {fmtDate(item.date)}
@@ -101,12 +101,12 @@ export default function InventoryList({ items, onRemove, onUpdate, collections =
                     </div>
                     {/* Price comparison */}
                     <div className="flex flex-wrap items-center gap-1.5 text-xs">
-                      <span className="text-gray-500 dark:text-gray-400">Comprado:</span>
-                      <span className="font-medium text-gray-600 dark:text-gray-300">
+                      <span className="text-stone-500 dark:text-stone-400">Comprado:</span>
+                      <span className="font-medium text-stone-600 dark:text-stone-300">
                         {item.quantity > 1 ? `${item.quantity} × ${fmt(item.purchasePrice)} = ` : ''}{fmt(invested)}
                       </span>
-                      <span className="text-gray-300 dark:text-gray-600 mx-1">→</span>
-                      <span className="text-gray-500 dark:text-gray-400">Ahora:</span>
+                      <span className="text-stone-300 dark:text-stone-600 mx-1">→</span>
+                      <span className="text-stone-500 dark:text-stone-400">Ahora:</span>
                       {isEditingPrice ? (
                         <span className="flex items-center gap-1">
                           <input
@@ -117,12 +117,12 @@ export default function InventoryList({ items, onRemove, onUpdate, collections =
                             value={priceInput}
                             onChange={e => setPriceInput(e.target.value)}
                             onKeyDown={e => { if (e.key === 'Enter') savePrice(item); if (e.key === 'Escape') setEditingPriceId(null); }}
-                            className="w-20 border border-violet-300 dark:border-violet-600 rounded-lg px-2 py-0.5 text-xs focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-gray-700 dark:text-gray-100"
+                            className="w-20 border border-violet-300 dark:border-violet-600 rounded-lg px-2 py-0.5 text-xs focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-stone-700 dark:text-stone-100"
                           />
                           <button onClick={() => savePrice(item)} className="text-green-500 hover:text-green-600 transition-colors">
                             <Check size={13} />
                           </button>
-                          <button onClick={() => setEditingPriceId(null)} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                          <button onClick={() => setEditingPriceId(null)} className="text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-300 transition-colors">
                             <X size={13} />
                           </button>
                         </span>
@@ -148,35 +148,35 @@ export default function InventoryList({ items, onRemove, onUpdate, collections =
                     </span>
                     {deletingId === item.id ? (
                       <div className="flex items-center gap-1.5 mt-1">
-                        <span className="text-xs text-gray-500 dark:text-gray-400">¿Eliminar?</span>
+                        <span className="text-xs text-stone-500 dark:text-stone-400">¿Eliminar?</span>
                         <button
                           onClick={() => { onRemove(item.id); setDeletingId(null); }}
                           className="text-xs font-semibold text-white bg-red-500 hover:bg-red-600 px-2 py-0.5 rounded-md transition-colors"
                         >Sí</button>
                         <button
                           onClick={() => setDeletingId(null)}
-                          className="text-xs font-semibold text-gray-500 dark:text-gray-300 px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors"
+                          className="text-xs font-semibold text-stone-500 dark:text-stone-300 px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-600 hover:bg-stone-200 dark:hover:bg-stone-500 transition-colors"
                         >No</button>
                       </div>
                     ) : (
                       <div className="flex gap-1 mt-1 -mr-1.5">
                         <button
                           onClick={() => startEditPrice(item)}
-                          className="p-1.5 text-gray-500 dark:text-gray-400 hover:!text-violet-500 dark:hover:!text-violet-400 transition-colors"
+                          className="p-1.5 text-stone-500 dark:text-stone-400 hover:!text-violet-500 dark:hover:!text-violet-400 transition-colors"
                           title="Actualizar precio"
                         >
                           <RefreshCw size={13} />
                         </button>
                         <button
                           onClick={() => setEditingItem(item)}
-                          className="p-1.5 text-gray-500 dark:text-gray-400 hover:!text-blue-500 dark:hover:!text-blue-400 transition-colors"
+                          className="p-1.5 text-stone-500 dark:text-stone-400 hover:!text-amber-600 dark:hover:!text-amber-400 transition-colors"
                           title="Editar"
                         >
                           <Pencil size={13} />
                         </button>
                         <button
                           onClick={() => setDeletingId(item.id)}
-                          className="p-1.5 text-gray-500 dark:text-gray-400 hover:!text-red-500 dark:hover:!text-red-400 transition-colors"
+                          className="p-1.5 text-stone-500 dark:text-stone-400 hover:!text-red-500 dark:hover:!text-red-400 transition-colors"
                           title="Eliminar"
                         >
                           <Trash2 size={13} />

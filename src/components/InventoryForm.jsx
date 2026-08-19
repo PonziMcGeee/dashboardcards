@@ -12,9 +12,9 @@ function Field({ label, icon: Icon, children }) {
   const linkedControl = isValidElement(control) ? cloneElement(control, { id: control.props.id ?? id }) : control;
   return (
     <div>
-      <label htmlFor={id} className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
+      <label htmlFor={id} className="block text-xs font-semibold text-stone-500 dark:text-stone-400 mb-1.5 uppercase tracking-wide">{label}</label>
       <div className="relative">
-        {Icon && <Icon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />}
+        {Icon && <Icon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />}
         {linkedControl}
         {rest}
       </div>
@@ -58,12 +58,12 @@ export default function InventoryForm({ onAdd, editItem, onSave, onCancel, colle
     }
   }
 
-  const base = 'w-full border border-gray-200 dark:border-gray-600 rounded-xl py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent transition-shadow dark:bg-gray-700 dark:text-gray-100';
+  const base = 'w-full border border-stone-200 dark:border-stone-600 rounded-xl py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent transition-shadow dark:bg-stone-700 dark:text-stone-100';
   const withIcon = `${base} pl-9 pr-3`;
 
   return (
-    <form onSubmit={handleSubmit} className={isEdit ? '' : 'bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6'}>
-      {!isEdit && <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-5">Nuevo artículo</h2>}
+    <form onSubmit={handleSubmit} className={isEdit ? '' : 'bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6'}>
+      {!isEdit && <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-5">Nuevo artículo</h2>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         <Field label="Fecha" icon={Calendar}>
@@ -122,7 +122,7 @@ export default function InventoryForm({ onAdd, editItem, onSave, onCancel, colle
           {isEdit ? <><Save size={15} /> Guardar cambios</> : <><PlusCircle size={16} /> Añadir artículo</>}
         </button>
         {isEdit && (
-          <button type="button" onClick={onCancel} className="px-4 py-2.5 rounded-xl text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          <button type="button" onClick={onCancel} className="px-4 py-2.5 rounded-xl text-sm text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors">
             Cancelar
           </button>
         )}
