@@ -1,37 +1,46 @@
 import { ArrowUp, ArrowDown } from 'lucide-react';
 
+// Tratamiento "slab de gradación": banda de etiqueta arriba (como la ficha de una
+// carta certificada), cifra en monoespaciada tabular, icono como sello en la esquina
+// en vez del chip difuminado + degradado genérico.
 export default function StatCard({ label, value, sub, color = 'amber', icon: Icon, trend }) {
-  const colors = {
-    amber:  'from-amber-500 to-amber-700',
-    green:  'from-emerald-500 to-emerald-700',
-    red:    'from-red-500 to-red-700',
-    purple: 'from-violet-500 to-violet-700',
-    orange: 'from-orange-500 to-orange-600',
+  const bands = {
+    amber:  'bg-amber-600',
+    green:  'bg-emerald-700',
+    red:    'bg-red-700',
+    purple: 'bg-violet-700',
+    orange: 'bg-orange-600',
+  };
+  const figures = {
+    amber:  'text-amber-700 dark:text-amber-400',
+    green:  'text-emerald-700 dark:text-emerald-400',
+    red:    'text-red-700 dark:text-red-400',
+    purple: 'text-violet-700 dark:text-violet-400',
+    orange: 'text-orange-700 dark:text-orange-400',
   };
 
   return (
-    <div className={`bg-gradient-to-br ${colors[color]} rounded-2xl p-5 text-white shadow-lg relative overflow-hidden`}>
-      {/* Background decoration */}
-      <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/5 rounded-full" />
-      <div className="absolute -bottom-6 -right-2 w-16 h-16 bg-white/5 rounded-full" />
-
-      <div className="relative flex items-start justify-between">
-        <div className="flex-1 min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-widest opacity-75">{label}</p>
-          <p className="font-display text-3xl font-extrabold mt-1 tracking-tight truncate">{value}</p>
-          {trend !== null && trend !== undefined ? (
-            <div className={`flex items-center gap-1 mt-1.5 text-xs font-semibold ${trend >= 0 ? 'text-white/80' : 'text-white/80'}`}>
-              {trend >= 0 ? <ArrowUp size={11} /> : <ArrowDown size={11} />}
-              <span>{Math.abs(trend).toFixed(1)}% vs anterior</span>
-            </div>
-          ) : (
-            sub && <p className="text-xs opacity-60 mt-1">{sub}</p>
-          )}
-        </div>
+    <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 overflow-hidden">
+      {/* Label band — como la ficha superior de un slab certificado */}
+      <div className={`${bands[color]} px-4 py-1.5 flex items-center justify-between`}>
+        <span className="text-[11px] font-bold uppercase tracking-widest text-white/90">{label}</span>
         {Icon && (
-          <div className="bg-white/20 rounded-xl p-2.5 shrink-0 ml-3 backdrop-blur-sm">
-            <Icon size={20} />
+          <div className="w-5 h-5 rounded border border-white/40 flex items-center justify-center shrink-0">
+            <Icon size={11} className="text-white" />
           </div>
+        )}
+      </div>
+
+      <div className="px-4 py-3.5">
+        <p className={`figure text-[1.75rem] font-bold leading-tight truncate ${figures[color]}`}>{value}</p>
+        {trend !== null && trend !== undefined ? (
+          <div className={`flex items-center gap-1 mt-1 text-xs font-semibold ${trend >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
+            {trend >= 0 ? <ArrowUp size={11} /> : <ArrowDown size={11} />}
+            <span className="figure">{Math.abs(trend).toFixed(1)}%</span>
+            <span className="text-stone-400 dark:text-stone-500 font-normal">vs anterior</span>
+          </div>
+        ) : (
+          sub && <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">{sub}</p>
         )}
       </div>
     </div>

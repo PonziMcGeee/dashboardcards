@@ -29,7 +29,7 @@ function CollectionBadge({ collection, collections }) {
 
 function EmptyState() {
   return (
-    <div className="bg-white dark:bg-stone-800 rounded-2xl border border-stone-100 dark:border-stone-700 shadow-sm p-10 text-center">
+    <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-10 text-center">
       <div className="inline-flex items-center justify-center w-14 h-14 bg-stone-50 dark:bg-stone-700 rounded-2xl mb-4">
         <Package size={24} className="text-stone-300 dark:text-stone-600" />
       </div>
@@ -67,7 +67,7 @@ export default function InventoryList({ items, onRemove, onUpdate, collections =
 
   return (
     <>
-      <div className="bg-white dark:bg-stone-800 rounded-2xl border border-stone-100 dark:border-stone-700 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 overflow-hidden">
         <div className="divide-y divide-stone-50 dark:divide-stone-700">
           {items.map(item => {
             const invested = item.quantity * item.purchasePrice;

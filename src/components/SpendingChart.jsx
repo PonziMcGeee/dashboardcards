@@ -60,7 +60,7 @@ export default function SpendingChart({ purchases, sales, dateFrom, dateTo, labe
   const data = buildChartData(purchases, sales, dateFrom, dateTo);
 
   return (
-    <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6">
+    <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-6">
       <h2 className="text-base font-bold text-stone-800 dark:text-stone-100 mb-4">{label || 'Últimos 30 días'}</h2>
       {data.length === 0 ? (
         <div className="flex items-center justify-center h-[220px] text-stone-500 dark:text-stone-400 text-sm">

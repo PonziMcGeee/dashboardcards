@@ -11,14 +11,38 @@ body {
   font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   background-color: #f7f5f2;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(28, 25, 23, 0.05) 0,
+    rgba(28, 25, 23, 0.05) 1px,
+    transparent 1px,
+    transparent 32px
+  );
+  background-attachment: fixed;
 }
 
+/* Titulares: serif con carácter, evoca el registro de un cuaderno de coleccionista */
 h1, h2, h3, .font-display {
-  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  font-family: 'Fraunces', 'Inter', system-ui, serif;
+  font-optical-sizing: auto;
+}
+
+/* Cifras monetarias: monoespaciada tabular, como un libro de cuentas */
+.figure {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
 .dark body {
   background-color: #1c1917;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 32px
+  );
 }
 
 :root {

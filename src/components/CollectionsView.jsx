@@ -43,7 +43,7 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
   return (
     <div className="space-y-6 max-w-xl mx-auto">
       {/* Create form */}
-      <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6">
+      <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-6">
         <h2 className="text-lg font-bold text-stone-800 dark:text-stone-100 mb-4">Nueva colección</h2>
         <form onSubmit={handleAdd} className="flex gap-3">
           <input
@@ -66,7 +66,7 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
 
       {/* List */}
       {collections.length === 0 ? (
-        <div className="bg-white dark:bg-stone-800 rounded-2xl border border-stone-100 dark:border-stone-700 shadow-sm p-12 text-center">
+        <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-12 text-center">
           <div className="flex justify-center gap-1.5 mb-4">
             {[0,1,2].map(i => (
               <div key={i} className={`w-4 h-4 rounded-full opacity-${i === 1 ? '100' : '40'} ${['bg-yellow-400','bg-blue-400','bg-green-500'][i]}`} />
@@ -76,7 +76,7 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
           <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">Crea tu primera colección arriba para empezar a organizar tus cartas.</p>
         </div>
       ) : (
-        <div className="bg-white dark:bg-stone-800 rounded-2xl border border-stone-100 dark:border-stone-700 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 overflow-hidden">
           <div className="px-5 py-3 border-b border-stone-50 dark:border-stone-700 flex items-center justify-between">
             <span className="text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-widest">
               {collections.length} {collections.length === 1 ? 'colección' : 'colecciones'}

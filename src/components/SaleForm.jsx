@@ -129,7 +129,7 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
   const withIcon = `${base} pl-9 pr-3`;
 
   return (
-    <form onSubmit={handleSubmit} className={isEdit ? '' : 'bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6'}>
+    <form onSubmit={handleSubmit} className={isEdit ? '' : 'bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-6'}>
       {!isEdit && <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100 mb-5">Nueva Venta</h2>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 

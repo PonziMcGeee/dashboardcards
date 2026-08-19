@@ -130,7 +130,7 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
     <div className="space-y-6">
 
       {/* Filter bar */}
-      <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-4 space-y-3">
+      <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-4 space-y-3">
         <div className="flex flex-wrap gap-3 items-center">
           {/* Collection selector */}
           <select
@@ -144,16 +144,16 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
             ))}
           </select>
 
-          {/* Segmented date control */}
-          <div className="flex bg-stone-100 dark:bg-stone-700 rounded-xl p-1 gap-0.5">
+          {/* Rango de fechas — pestañas con subrayado, no píldora */}
+          <div className="flex items-center gap-0.5 border-b border-stone-200 dark:border-stone-700">
             {DATE_PRESETS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setDatePreset(key)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-2.5 py-1.5 -mb-px border-b-2 text-xs font-semibold transition-colors ${
                   datePreset === key
-                    ? 'bg-white dark:bg-stone-600 text-stone-800 dark:text-stone-100 shadow-sm'
-                    : 'text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200'
+                    ? 'border-amber-500 text-stone-800 dark:text-stone-100'
+                    : 'border-transparent text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200'
                 }`}
               >
                 {label}
@@ -198,22 +198,22 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
           <SectionLabel>Mis colecciones</SectionLabel>
           <div className={`grid grid-cols-1 gap-4 ${byCollection.length >= 3 ? 'md:grid-cols-3' : byCollection.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1 max-w-sm'}`}>
             {byCollection.map(({ name, color, spent, sold, pct }) => (
-              <div key={name} className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm overflow-hidden border border-stone-100 dark:border-stone-700">
+              <div key={name} className="bg-white dark:bg-stone-800 rounded-lg overflow-hidden border border-stone-200 dark:border-stone-700">
                 <div className={`h-1.5 ${color.dot}`} />
                 <div className="p-5">
                   <h3 className="font-bold text-stone-800 dark:text-stone-100 mb-3">{name}</h3>
                   <div className="space-y-1.5 text-sm">
                     <div className="flex justify-between">
                       <span className="text-stone-500 dark:text-stone-400">Gastado</span>
-                      <span className="font-semibold text-stone-800 dark:text-stone-100">{fmt(spent)}</span>
+                      <span className="figure font-semibold text-stone-800 dark:text-stone-100">{fmt(spent)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-stone-500 dark:text-stone-400">Vendido</span>
-                      <span className="font-semibold text-green-600">{fmt(sold)}</span>
+                      <span className="figure font-semibold text-emerald-600 dark:text-emerald-400">{fmt(sold)}</span>
                     </div>
-                    <div className="flex justify-between border-t border-stone-50 dark:border-stone-700 pt-1.5">
+                    <div className="flex justify-between border-t border-stone-100 dark:border-stone-700 pt-1.5">
                       <span className="text-stone-500 dark:text-stone-400">Balance</span>
-                      <span className={`font-bold ${sold - spent >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                      <span className={`figure font-bold ${sold - spent >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'}`}>
                         {sold - spent >= 0 ? '+' : ''}{fmt(sold - spent)}
                       </span>
                     </div>
@@ -240,7 +240,7 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
       <SectionLabel>Análisis</SectionLabel>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <CategoryChart purchases={filteredPurchases} />
-        <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6">
+        <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-6">
           <h2 className="text-base font-bold text-stone-800 dark:text-stone-100 mb-3">Resumen rápido</h2>
           <div className="space-y-3 text-sm">
             <Row label="Compras registradas" value={filteredPurchases.length} />
@@ -248,8 +248,8 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
             <Row label="Artículos comprados" value={filteredPurchases.reduce((s, p) => s + p.quantity, 0)} />
             <Row label="Artículos vendidos"  value={filteredSales.reduce((s, v) => s + v.quantity, 0)} />
             <div className="border-t border-stone-100 dark:border-stone-700 pt-3">
-              <Row label="Gasto promedio/compra" value={filteredPurchases.length ? fmt(totalSpent / filteredPurchases.length) : '—'} />
-              <Row label="Precio promedio/venta" value={filteredSales.length ? fmt(totalSales / filteredSales.length) : '—'} />
+              <Row label="Gasto promedio/compra" value={filteredPurchases.length ? fmt(totalSpent / filteredPurchases.length) : '—'} mono />
+              <Row label="Precio promedio/venta" value={filteredSales.length ? fmt(totalSales / filteredSales.length) : '—'} mono />
             </div>
           </div>
         </div>
@@ -279,11 +279,11 @@ function SectionLabel({ children }) {
   );
 }
 
-function Row({ label, value }) {
+function Row({ label, value, mono = false }) {
   return (
     <div className="flex justify-between items-center text-sm">
       <span className="text-stone-500 dark:text-stone-400">{label}</span>
-      <span className="font-semibold text-stone-800 dark:text-stone-100">{value}</span>
+      <span className={`font-semibold text-stone-800 dark:text-stone-100 ${mono ? 'figure' : ''}`}>{value}</span>
     </div>
   );
 }

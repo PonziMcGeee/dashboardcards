@@ -68,9 +68,9 @@ function EmptyState({ type }) {
   };
   const { Icon, title, sub } = config[type];
   return (
-    <div className="bg-white dark:bg-stone-800 rounded-2xl border border-stone-100 dark:border-stone-700 shadow-sm p-10 text-center">
-      <div className="inline-flex items-center justify-center w-14 h-14 bg-stone-50 dark:bg-stone-700 rounded-2xl mb-4">
-        <Icon size={24} className="text-stone-300 dark:text-stone-600" />
+    <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-10 text-center">
+      <div className="inline-flex items-center justify-center w-14 h-14 border border-stone-200 dark:border-stone-600 rounded-lg mb-4">
+        <Icon size={22} className="text-stone-400 dark:text-stone-500" />
       </div>
       <p className="font-semibold text-stone-500 dark:text-stone-400 text-sm">{title}</p>
       <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">{sub}</p>
@@ -91,13 +91,14 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
 
   return (
     <>
-      <div className="bg-white dark:bg-stone-800 rounded-2xl border border-stone-100 dark:border-stone-700 shadow-sm overflow-hidden">
-        <div className="divide-y divide-stone-50 dark:divide-stone-700">
+      <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 overflow-hidden">
+        <div className="divide-y divide-stone-100 dark:divide-stone-700">
           {items.map(item => {
             const roi = type === 'purchase' ? getPurchaseROI(item, sales) : null;
             const saleProfit = type === 'sale' ? getSaleProfit(item, purchases) : null;
+            const accent = type === 'purchase' ? 'border-l-amber-500' : 'border-l-emerald-500';
             return (
-            <div key={item.id} className="item-fade-in flex items-start justify-between gap-4 p-4 hover:bg-slate-50 dark:hover:bg-stone-700/40 transition-colors group">
+            <div key={item.id} className={`item-fade-in flex items-start justify-between gap-4 p-4 pl-3.5 border-l-2 ${accent} hover:bg-stone-50 dark:hover:bg-stone-700/40 transition-colors group`}>
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-1">
                   <span className="font-medium text-stone-800 dark:text-stone-100 text-sm truncate">{item.description}</span>
@@ -111,7 +112,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                     <Calendar size={11} />
                     {fmtDate(item.date)}
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="figure flex items-center gap-1">
                     <Tag size={11} />
                     {item.quantity} × {fmt(item.price)}
                   </span>
@@ -125,7 +126,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 {type === 'purchase' && roi.soldQty > 0 && (
                   <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs">
                     <span className="text-stone-500 dark:text-stone-400">Vendido {roi.soldQty}/{item.quantity}</span>
-                    <span className={`font-semibold ${roi.profit >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                    <span className={`figure font-semibold ${roi.profit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'}`}>
                       {roi.profit >= 0 ? '+' : ''}{fmt(roi.profit)}{roi.roiPct !== null && ` · ROI ${roi.roiPct.toFixed(0)}%`}
                     </span>
                   </div>
@@ -134,14 +135,14 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                   <div className="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs">
                     <Link2 size={11} className="text-stone-500 dark:text-stone-400 shrink-0" />
                     <span className="text-stone-500 dark:text-stone-400 truncate">de "{saleProfit.purchase.description}"</span>
-                    <span className={`font-semibold shrink-0 ${saleProfit.profit >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                    <span className={`figure font-semibold shrink-0 ${saleProfit.profit >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'}`}>
                       {saleProfit.profit >= 0 ? '+' : ''}{fmt(saleProfit.profit)}
                     </span>
                   </div>
                 )}
               </div>
               <div className="flex flex-col items-end gap-1 shrink-0">
-                <span className={`font-bold text-sm ${type === 'sale' ? 'text-green-600' : 'text-stone-800 dark:text-stone-100'}`}>
+                <span className={`figure font-bold text-sm ${type === 'sale' ? 'text-emerald-700 dark:text-emerald-400' : 'text-stone-800 dark:text-stone-100'}`}>
                   {fmt(item.total)}
                 </span>
                 {deletingId === item.id ? (

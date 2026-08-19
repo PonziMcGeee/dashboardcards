@@ -10,27 +10,30 @@ const tabs = [
 export default function Navbar({ active, onChange, onLogout, user, dark, onToggleTheme, onExport }) {
   return (
     <>
+      {/* Filo dorado — detalle de firma, como el canto de una funda protectora */}
+      <div className="h-[3px] bg-gradient-to-r from-amber-700 via-amber-400 to-amber-700 sticky top-0 z-20" />
+
       {/* Top bar */}
-      <nav className="bg-stone-900 sticky top-0 z-10 shadow-lg">
+      <nav className="bg-stone-900 sticky top-[3px] z-10 shadow-lg">
         <div className="max-w-5xl mx-auto px-4 flex items-center h-14 gap-4">
-          {/* Logo */}
+          {/* Logo — tratado como un sello, no un icono de app */}
           <div className="flex items-center gap-2.5 shrink-0">
-            <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-amber-700 rounded-lg flex items-center justify-center shadow-md text-base select-none">
+            <div className="w-8 h-8 border-2 border-amber-500 rounded flex items-center justify-center text-base select-none">
               🃏
             </div>
-            <span className="font-display text-white font-bold text-base tracking-tight">CardTracker</span>
+            <span className="font-display text-white font-semibold text-base tracking-tight">CardTracker</span>
           </div>
 
           {/* Tabs — desktop */}
-          <div className="hidden sm:flex items-center gap-0.5 flex-1 ml-2">
+          <div className="hidden sm:flex items-center gap-1 flex-1 ml-2 h-full">
             {tabs.map(({ id, label, Icon }) => (
               <button
                 key={id}
                 onClick={() => onChange(id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 h-full border-b-2 text-sm font-medium transition-colors ${
                   active === id
-                    ? 'bg-white/10 text-white'
-                    : 'text-stone-400 hover:text-white hover:bg-white/5'
+                    ? 'border-amber-500 text-white'
+                    : 'border-transparent text-stone-400 hover:text-white hover:border-stone-600'
                 }`}
               >
                 <Icon size={15} />

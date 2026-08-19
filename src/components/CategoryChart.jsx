@@ -14,14 +14,14 @@ export default function CategoryChart({ purchases }) {
 
   if (data.length === 0) {
     return (
-      <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6 flex items-center justify-center h-48 text-sm text-stone-500 dark:text-stone-400">
+      <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-6 flex items-center justify-center h-48 text-sm text-stone-500 dark:text-stone-400">
         Sin datos de categorías
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-sm border border-stone-100 dark:border-stone-700 p-6">
+    <div className="bg-white dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700 p-6">
       <h2 className="text-base font-bold text-stone-800 dark:text-stone-100 mb-4">Gasto por categoría</h2>
       <ResponsiveContainer width="100%" height={200}>
         <PieChart>
