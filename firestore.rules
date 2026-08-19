@@ -1,0 +1,40 @@
+rules_version = '2';
+
+// CardTracker — reglas de seguridad de Firestore.
+//
+// Modelo de datos: todo vive bajo users/{uid}/{purchases,sales,collections,inventory}/{docId}.
+// No hay ningún dato compartido entre usuarios ni ninguna colección pública.
+// Por tanto la regla es simple: cada usuario autenticado solo puede leer y
+// escribir sus propios documentos, identificados porque el uid del path
+// coincide con el uid de su sesión. Todo lo demás queda denegado por defecto.
+//
+// IMPORTANTE: este archivo, por sí solo, no protege nada — es solo el
+// código fuente de las reglas. Hay que desplegarlo para que Firebase lo
+// aplique de verdad. Ver README de despliegue más abajo o en el commit
+// que introduce este archivo.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // Documento del propio usuario (si en el futuro se llegara a usar
+    // para guardar preferencias u otros datos a nivel de cuenta).
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // Subcolecciones del usuario: purchases, sales, collections, inventory
+    // (y cualquier otra que se añada en el futuro con el mismo patrón).
+    match /users/{uid}/{collectionName}/{docId} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // Cualquier otra ruta no contemplada explícitamente arriba queda
+    // denegada — mejor fallar cerrado que dejar algo abierto por descuido.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
