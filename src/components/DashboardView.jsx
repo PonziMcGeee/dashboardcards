@@ -164,9 +164,9 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
 
         {datePreset === 'custom' && (
           <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-gray-50 dark:border-gray-700">
-            <span className="text-xs font-medium text-gray-400 dark:text-gray-500">Desde</span>
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Desde</span>
             <input type="date" value={customFrom} onChange={e => setCustomFrom(e.target.value)} className={inputCls} />
-            <span className="text-xs font-medium text-gray-400 dark:text-gray-500">hasta</span>
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">hasta</span>
             <input type="date" value={customTo} onChange={e => setCustomTo(e.target.value)} className={inputCls} />
           </div>
         )}
@@ -204,22 +204,22 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
                   <h3 className="font-bold text-gray-800 dark:text-gray-100 mb-3">{name}</h3>
                   <div className="space-y-1.5 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400 dark:text-gray-500">Gastado</span>
+                      <span className="text-gray-500 dark:text-gray-400">Gastado</span>
                       <span className="font-semibold text-gray-800 dark:text-gray-100">{fmt(spent)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400 dark:text-gray-500">Vendido</span>
+                      <span className="text-gray-500 dark:text-gray-400">Vendido</span>
                       <span className="font-semibold text-green-600">{fmt(sold)}</span>
                     </div>
                     <div className="flex justify-between border-t border-gray-50 dark:border-gray-700 pt-1.5">
-                      <span className="text-gray-400 dark:text-gray-500">Balance</span>
+                      <span className="text-gray-500 dark:text-gray-400">Balance</span>
                       <span className={`font-bold ${sold - spent >= 0 ? 'text-green-600' : 'text-red-500'}`}>
                         {sold - spent >= 0 ? '+' : ''}{fmt(sold - spent)}
                       </span>
                     </div>
                   </div>
                   <div className="mt-3">
-                    <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mb-1">
+                    <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
                       <span>Recuperado</span>
                       <span className="font-medium">{pct.toFixed(0)}%</span>
                     </div>
@@ -273,7 +273,7 @@ export default function DashboardView({ purchases, sales, collections, onRemoveP
 function SectionLabel({ children }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest whitespace-nowrap">{children}</span>
+      <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest whitespace-nowrap">{children}</span>
       <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
     </div>
   );
@@ -293,7 +293,7 @@ function ListControls({ title, count, search, onSearch, sort, onSort }) {
     <div className="mb-3 space-y-2">
       <div className="flex items-center gap-2">
         <h2 className="text-base font-semibold text-gray-800 dark:text-gray-100">{title}</h2>
-        {count > 0 && <span className="text-xs text-gray-400 dark:text-gray-500">{count}</span>}
+        {count > 0 && <span className="text-xs text-gray-500 dark:text-gray-400">{count}</span>}
       </div>
       <div className="flex gap-2">
         <input

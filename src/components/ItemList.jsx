@@ -73,7 +73,7 @@ function EmptyState({ type }) {
         <Icon size={24} className="text-gray-300 dark:text-gray-600" />
       </div>
       <p className="font-semibold text-gray-500 dark:text-gray-400 text-sm">{title}</p>
-      <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{sub}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{sub}</p>
     </div>
   );
 }
@@ -106,7 +106,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                     ? <PurchaseBadge category={item.category} />
                     : <SaleBadge platform={item.platform} />}
                 </div>
-                <div className="flex flex-wrap gap-3 text-xs text-gray-400">
+                <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400">
                   <span className="flex items-center gap-1">
                     <Calendar size={11} />
                     {fmtDate(item.date)}
@@ -124,7 +124,7 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 </div>
                 {type === 'purchase' && roi.soldQty > 0 && (
                   <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs">
-                    <span className="text-gray-400 dark:text-gray-500">Vendido {roi.soldQty}/{item.quantity}</span>
+                    <span className="text-gray-500 dark:text-gray-400">Vendido {roi.soldQty}/{item.quantity}</span>
                     <span className={`font-semibold ${roi.profit >= 0 ? 'text-green-600' : 'text-red-500'}`}>
                       {roi.profit >= 0 ? '+' : ''}{fmt(roi.profit)}{roi.roiPct !== null && ` · ROI ${roi.roiPct.toFixed(0)}%`}
                     </span>
@@ -132,8 +132,8 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                 )}
                 {type === 'sale' && saleProfit && (
                   <div className="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs">
-                    <Link2 size={11} className="text-gray-400 dark:text-gray-500 shrink-0" />
-                    <span className="text-gray-400 dark:text-gray-500 truncate">de "{saleProfit.purchase.description}"</span>
+                    <Link2 size={11} className="text-gray-500 dark:text-gray-400 shrink-0" />
+                    <span className="text-gray-500 dark:text-gray-400 truncate">de "{saleProfit.purchase.description}"</span>
                     <span className={`font-semibold shrink-0 ${saleProfit.profit >= 0 ? 'text-green-600' : 'text-red-500'}`}>
                       {saleProfit.profit >= 0 ? '+' : ''}{fmt(saleProfit.profit)}
                     </span>
@@ -161,17 +161,17 @@ export default function ItemList({ items, type, onRemove, onUpdate, collections 
                     </button>
                   </div>
                 ) : (
-                  <div className="flex gap-2 mt-1">
+                  <div className="flex gap-1 mt-1 -mr-1.5">
                     <button
                       onClick={() => setEditingItem(item)}
-                      className="text-gray-200 dark:text-gray-700 group-hover:text-gray-400 dark:group-hover:text-gray-500 hover:!text-blue-500 transition-colors"
+                      className="p-1.5 text-gray-500 dark:text-gray-400 hover:!text-blue-500 dark:hover:!text-blue-400 transition-colors"
                       title="Editar"
                     >
                       <Pencil size={13} />
                     </button>
                     <button
                       onClick={() => setDeletingId(item.id)}
-                      className="text-gray-200 dark:text-gray-700 group-hover:text-gray-400 dark:group-hover:text-gray-500 hover:!text-red-500 transition-colors"
+                      className="p-1.5 text-gray-500 dark:text-gray-400 hover:!text-red-500 dark:hover:!text-red-400 transition-colors"
                       title="Eliminar"
                     >
                       <Trash2 size={13} />

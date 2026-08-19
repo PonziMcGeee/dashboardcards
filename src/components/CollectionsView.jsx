@@ -73,12 +73,12 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
             ))}
           </div>
           <p className="font-semibold text-gray-500 dark:text-gray-400 text-sm">Sin colecciones todavía</p>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Crea tu primera colección arriba para empezar a organizar tus cartas.</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Crea tu primera colección arriba para empezar a organizar tus cartas.</p>
         </div>
       ) : (
         <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-50 dark:border-gray-700 flex items-center justify-between">
-            <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+            <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">
               {collections.length} {collections.length === 1 ? 'colección' : 'colecciones'}
             </span>
           </div>
@@ -110,7 +110,7 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
                     </>
                   ) : (
                     <>
-                      <span className={`flex-1 text-sm font-semibold transition-colors ${isActive ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}>
+                      <span className={`flex-1 text-sm font-semibold transition-colors ${isActive ? 'text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'}`}>
                         {col.name}
                       </span>
 
@@ -126,14 +126,14 @@ export default function CollectionsView({ collections, onAdd, onRemove, onRename
                           isActive ? 'translate-x-[18px]' : 'translate-x-[3px]'
                         }`} />
                       </button>
-                      <span className={`text-xs w-14 ${isActive ? 'text-blue-500 font-medium' : 'text-gray-400 dark:text-gray-500'}`}>
+                      <span className={`text-xs w-14 ${isActive ? 'text-blue-500 font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
                         {isActive ? 'Activa' : 'Inactiva'}
                       </span>
 
-                      <button onClick={() => startEdit(col)} className="text-gray-300 hover:text-blue-400 transition-colors" title="Renombrar">
+                      <button onClick={() => startEdit(col)} className="p-1.5 -mr-1 text-gray-500 dark:text-gray-400 hover:!text-blue-500 dark:hover:!text-blue-400 transition-colors" title="Renombrar">
                         <Pencil size={14} />
                       </button>
-                      <button onClick={() => onRemove(col.id)} className="text-gray-300 hover:text-red-400 transition-colors" title="Eliminar">
+                      <button onClick={() => onRemove(col.id)} className="p-1.5 -mr-1.5 text-gray-500 dark:text-gray-400 hover:!text-red-500 dark:hover:!text-red-400 transition-colors" title="Eliminar">
                         <Trash2 size={15} />
                       </button>
                     </>

@@ -63,7 +63,7 @@ export default function SpendingChart({ purchases, sales, dateFrom, dateTo, labe
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
       <h2 className="text-base font-bold text-gray-800 dark:text-gray-100 mb-4">{label || 'Últimos 30 días'}</h2>
       {data.length === 0 ? (
-        <div className="flex items-center justify-center h-[220px] text-gray-400 text-sm">
+        <div className="flex items-center justify-center h-[220px] text-gray-500 dark:text-gray-400 text-sm">
           Sin datos para el período seleccionado
         </div>
       ) : (

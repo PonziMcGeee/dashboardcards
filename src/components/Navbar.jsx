@@ -18,7 +18,7 @@ export default function Navbar({ active, onChange, onLogout, user, dark, onToggl
             <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-md text-base select-none">
               🃏
             </div>
-            <span className="text-white font-bold text-base tracking-tight">CardTracker</span>
+            <span className="font-display text-white font-bold text-base tracking-tight">CardTracker</span>
           </div>
 
           {/* Tabs — desktop */}
@@ -75,7 +75,7 @@ export default function Navbar({ active, onChange, onLogout, user, dark, onToggl
               key={id}
               onClick={() => onChange(id)}
               className={`flex-1 flex flex-col items-center gap-0.5 pt-2 pb-3 text-xs font-medium transition-colors relative ${
-                active === id ? 'text-blue-500' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400'
+                active === id ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-400'
               }`}
             >
               {active === id && (

@@ -56,7 +56,7 @@ export default function LoginScreen() {
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center text-xl shadow-lg">
               🃏
             </div>
-            <span className="text-white font-bold text-xl tracking-tight">CardTracker</span>
+            <span className="font-display text-white font-bold text-xl tracking-tight">CardTracker</span>
           </div>
         </div>
 
@@ -94,7 +94,7 @@ export default function LoginScreen() {
               🃏
             </div>
             <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">CardTracker</h1>
-            <p className="text-sm text-gray-400 mt-1">Tu dashboard de cartas de colección</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Tu dashboard de cartas de colección</p>
           </div>
 
           {/* Card */}
@@ -102,16 +102,17 @@ export default function LoginScreen() {
             <h2 className="text-xl font-extrabold text-gray-900 dark:text-white">
               {mode === 'login' ? 'Bienvenido de nuevo' : 'Crear cuenta'}
             </h2>
-            <p className="text-sm text-gray-400 mt-1 mb-6">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-6">
               {mode === 'login' ? 'Introduce tus datos para continuar.' : 'Completa el formulario para registrarte.'}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">Email</label>
+                <label htmlFor="login-email" className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">Email</label>
                 <div className="relative">
                   <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                   <input
+                    id="login-email"
                     type="email" value={email} onChange={e => setEmail(e.target.value)}
                     required autoComplete="email" placeholder="tu@email.com"
                     className={inputCls}
@@ -120,10 +121,11 @@ export default function LoginScreen() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">Contraseña</label>
+                <label htmlFor="login-password" className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">Contraseña</label>
                 <div className="relative">
                   <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                   <input
+                    id="login-password"
                     type="password" value={password} onChange={e => setPassword(e.target.value)}
                     required autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
                     placeholder="••••••••" minLength={6}
@@ -148,7 +150,7 @@ export default function LoginScreen() {
             </form>
 
             <div className="mt-5 pt-5 border-t border-gray-100 dark:border-gray-700 text-center">
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {mode === 'login' ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}{' '}
                 <button onClick={switchMode} className="text-blue-600 font-semibold hover:underline">
                   {mode === 'login' ? 'Regístrate gratis' : 'Iniciar sesión'}

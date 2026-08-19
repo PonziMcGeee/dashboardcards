@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useId, Children, cloneElement, isValidElement } from 'react';
 import { PlusCircle, Save, Calendar, Hash, Euro, FileText, StickyNote, FolderOpen, Store, Link2, X, Search } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -27,12 +27,16 @@ function purchaseLabel(p) {
 }
 
 function Field({ label, icon: Icon, children }) {
+  const id = useId();
+  const [control, ...rest] = Children.toArray(children);
+  const linkedControl = isValidElement(control) ? cloneElement(control, { id: control.props.id ?? id }) : control;
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
+      <label htmlFor={id} className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
       <div className="relative">
         {Icon && <Icon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />}
-        {children}
+        {linkedControl}
+        {rest}
       </div>
     </div>
   );
@@ -185,7 +189,7 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
                 type="button"
                 onClick={clearPurchaseLink}
                 title="Quitar vínculo"
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:!text-red-500 dark:hover:!text-red-400 transition-colors"
               >
                 <X size={14} />
               </button>
@@ -203,13 +207,13 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
                     className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between gap-2 transition-colors"
                   >
                     <span className="truncate text-gray-700 dark:text-gray-200">{purchaseLabel(p)}</span>
-                    <span className="text-xs text-gray-400 dark:text-gray-500 shrink-0">
+                    <span className="text-xs text-gray-500 dark:text-gray-400 shrink-0">
                       quedan {getRemainingQty(p, sales, isEdit ? editItem.id : null)}
                     </span>
                   </button>
                 ))
               ) : (
-                <div className="flex items-center gap-2 px-3 py-3 text-xs text-gray-400 dark:text-gray-500">
+                <div className="flex items-center gap-2 px-3 py-3 text-xs text-gray-500 dark:text-gray-400">
                   <Search size={13} />
                   Sin compras que coincidan
                 </div>

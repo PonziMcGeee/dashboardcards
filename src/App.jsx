@@ -66,7 +66,7 @@ export default function App() {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <span className="text-4xl">🃏</span>
-          <p className="text-sm text-gray-400 mt-3">Cargando...</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">Cargando...</p>
         </div>
       </div>
     );

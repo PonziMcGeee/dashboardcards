@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId, Children, cloneElement, isValidElement } from 'react';
 import { PlusCircle, Save, Calendar, Hash, Euro, FileText, StickyNote, FolderOpen, Tag } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -9,12 +9,16 @@ function emptyForm(today, defaultCollection) {
 }
 
 function Field({ label, icon: Icon, children }) {
+  const id = useId();
+  const [control, ...rest] = Children.toArray(children);
+  const linkedControl = isValidElement(control) ? cloneElement(control, { id: control.props.id ?? id }) : control;
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
+      <label htmlFor={id} className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
       <div className="relative">
         {Icon && <Icon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />}
-        {children}
+        {linkedControl}
+        {rest}
       </div>
     </div>
   );
@@ -74,7 +78,7 @@ export default function PurchaseForm({ onAdd, editItem, onSave, onCancel, collec
               {collections.filter(c => c.active !== false).map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
             </select>
           ) : (
-            <div className={`${withIcon} text-gray-400 bg-gray-50 dark:bg-gray-700 flex items-center`}>
+            <div className={`${withIcon} text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 flex items-center`}>
               Crea una colección primero
             </div>
           )}

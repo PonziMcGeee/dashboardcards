@@ -18,7 +18,7 @@ export default function StatCard({ label, value, sub, color = 'blue', icon: Icon
       <div className="relative flex items-start justify-between">
         <div className="flex-1 min-w-0">
           <p className="text-xs font-semibold uppercase tracking-widest opacity-75">{label}</p>
-          <p className="text-3xl font-extrabold mt-1 tracking-tight truncate">{value}</p>
+          <p className="font-display text-3xl font-extrabold mt-1 tracking-tight truncate">{value}</p>
           {trend !== null && trend !== undefined ? (
             <div className={`flex items-center gap-1 mt-1.5 text-xs font-semibold ${trend >= 0 ? 'text-white/80' : 'text-white/80'}`}>
               {trend >= 0 ? <ArrowUp size={11} /> : <ArrowDown size={11} />}
