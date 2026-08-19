@@ -90,6 +90,8 @@ export default function SaleForm({ onAdd, editItem, onSave, onCancel, collection
     } else {
       onAdd(data);
       setForm(emptyForm(today));
+      setPurchaseQuery('');
+      setShowPurchaseDropdown(false);
     }
   }
 
